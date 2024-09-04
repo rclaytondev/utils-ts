@@ -44,4 +44,23 @@ export class PriorityQueue<T> {
 			this.heapify(minPriorityChild);
 		}
 	}
+
+	*entries() {
+		/* Can yield the first k values in O(k log k) time. */
+		if(this.heap.length === 0) { return; }
+		const queue = new PriorityQueue<number>();
+		queue.insert(0, this.heap[0].priority);
+		while(queue.heap.length !== 0) {
+			const nextIndex = queue.heap[0].value;
+			yield [this.heap[nextIndex].value, this.heap[nextIndex].priority];
+			queue.pop();
+			const [child1Index, child2Index] = PriorityQueue.childIndices(nextIndex);
+			if(child1Index < this.heap.length) {
+				queue.insert(child1Index, this.heap[child1Index].priority);
+			}
+			if(child2Index < this.heap.length) {
+				queue.insert(child2Index, this.heap[child2Index].priority);
+			}
+		}
+	}
 }
