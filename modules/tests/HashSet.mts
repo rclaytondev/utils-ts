@@ -60,3 +60,20 @@ describe("HashSet iterator", () => {
 		assert.sameDeepOrderedMembers(values, [[1, 2], [3]]);
 	});
 });
+describe("HashSet.union", () => {
+	it("can compute the union of two sets", () => {
+		const result = HashSet.union(
+			new HashSet([[1, 2], [3, 4]]),
+			new HashSet([[3, 4], [5, 6]])
+		);
+		assert.deepEqual([...result], [
+			[1, 2],
+			[3, 4],
+			[5, 6]
+		]);
+	});
+	it("can compute the union of no sets, returning an empty set with the default hash function", () => {
+		const result = HashSet.union();
+		assert.deepEqual([...result], []);
+	});
+});

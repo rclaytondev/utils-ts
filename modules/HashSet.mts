@@ -36,4 +36,14 @@ export class HashSet<T> {
 	toString() {
 		return `{${[...this.values.values()].map(v => `${v}`).join(", ")}}`;
 	}
+
+	static union<T>(...sets: HashSet<T>[]) {
+		const result = new HashSet<T>([], sets[0]?.hashFunction ?? (x => `${x}`));
+		for(const set of sets) {
+			for(const value of set.values.values()) {
+				result.add(value);
+			}
+		}
+		return result;
+	}
 }
