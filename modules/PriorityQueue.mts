@@ -25,13 +25,16 @@ export class PriorityQueue<T> {
 		}
 	}
 	pop(): T {
+		return this.popWithPriority()[0];
+	}
+	popWithPriority(): [T, number] {
 		if(this.heap.length === 0) {
 			throw new Error("Cannot pop from empty priority queue.");
 		}
 		this.swap(0, this.heap.length - 1);
 		const result = this.heap.pop();
 		this.heapify(0);
-		return result!.value;
+		return [result!.value, result!.priority];
 	}
 	private heapify(index: number) {
 		if(this.heap.length === 0) { return; }
