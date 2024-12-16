@@ -164,6 +164,13 @@ describe("Sequence.includes", () => {
 		assert.isFalse(sequence.includes(9));
 	});
 });
+describe("Sequence.filter", () => {
+	it("returns the sequence consisting of all the numbers that satisfy the callback", () => {
+		const sequence = Sequence.POSITIVE_INTEGERS.filter(n => n % 2 === 0);
+		const terms = sequence.slice(0, 5);
+		assert.sameOrderedMembers(terms, [2, 4, 6, 8, 10]);
+	});
+});
 
 describe("Sequence.tuplesWithSum", () => {
 	it("can yield a list of all tuples of a given size that have a given sum", () => {

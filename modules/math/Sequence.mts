@@ -56,6 +56,17 @@ export class Sequence {
 		}
 		return result;
 	}
+	filter(callback: (value: number, index: number) => boolean) {
+		const self = this;
+		return new Sequence(function*() {
+			for(const [index, value] of self.entries()) {
+				if(callback(value, index)) {
+					yield value;
+				}
+			}
+			throw new Error("Reached end of supposedly infinite sequence.");
+		});
+	}
 
 
 	static POSITIVE_INTEGERS = new Sequence(n => n + 1);
