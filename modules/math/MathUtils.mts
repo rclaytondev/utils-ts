@@ -130,6 +130,15 @@ export class MathUtils {
 		}
 		return result;
 	}
+	static unfactorize(factorization: Map<number, number>): number;
+	static unfactorize(primes: number[], exponents: number[]): number;
+	static unfactorize(factorizationOrPrimes: Map<number, number> | number[], exponents?: number[]) {
+		if(factorizationOrPrimes instanceof Map) {
+			const primes = [...factorizationOrPrimes.keys()];
+			return MathUtils.product(primes.map(p => p ** factorizationOrPrimes.get(p)!));
+		}
+		return MathUtils.product(factorizationOrPrimes.map((p, i) => p ** (exponents!)[i]));
+	}
 	static divisors(num: number) {
 		const divisorsBelowSqrt = [];
 		const divisorsAboveSqrt = [];

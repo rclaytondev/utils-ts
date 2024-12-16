@@ -152,3 +152,13 @@ describe("MathUtils.fromDigits", () => {
 		assert.equal(num, 1729);
 	});
 });
+describe("MathUtils.unfactorize", () => {
+	it("can multiply out the factorization when given a Map with primes and exponents", () => {
+		const result = MathUtils.unfactorize(new Map([[2, 1], [3, 4]]));
+		assert.equal(result, 162); // 2^1 * 3^4
+	});
+	it("can multiply out the factorization when given two arrays containing primes and exponents", () => {
+		const result = MathUtils.unfactorize([2, 3], [1, 4]);
+		assert.equal(result, 162); // 2^1 * 3^4
+	});
+});
