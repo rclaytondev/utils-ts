@@ -34,7 +34,7 @@ export class HashSet<T> {
 		return new HashSet([...this].filter(callback));
 	}
 	toString() {
-		return `{${[...this.values.values()].map(v => `${v}`).join(", ")}}`;
+		return `{${[...this.values.values()].map(v => `${v}`).sort().join(", ")}}`;
 	}
 
 
@@ -49,5 +49,8 @@ export class HashSet<T> {
 			}
 		}
 		return result;
+	}
+	equals(set: HashSet<T>) {
+		return this.toString() === set.toString();
 	}
 }

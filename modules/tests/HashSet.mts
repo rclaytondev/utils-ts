@@ -87,3 +87,19 @@ describe("HashSet.union", () => {
 		assert.deepEqual([...result], []);
 	});
 });
+describe("HashSet.equals", () => {
+	it("returns true if the sets contain the same elements, ignoring order", () => {
+		const set1 = new HashSet([[1, 2], [3, 4]]);
+		const set2 = new HashSet([[3, 4], [1, 2]]);
+		assert.isTrue(set1.equals(set1));
+		assert.isTrue(set2.equals(set2));
+		assert.isTrue(set1.equals(set2));
+		assert.isTrue(set2.equals(set1));
+	});
+	it("returns false if one of the sets contains an element that the other set does not", () => {
+		const set1 = new HashSet([[1, 2]]);
+		const set2 = new HashSet([[1, 2], [3, 4]]);
+		assert.isFalse(set1.equals(set2));
+		assert.isFalse(set2.equals(set1));
+	});
+});
