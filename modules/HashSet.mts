@@ -37,6 +37,10 @@ export class HashSet<T> {
 		return `{${[...this.values.values()].map(v => `${v}`).join(", ")}}`;
 	}
 
+
+	map<S>(callback: (value: T) => S, newHashFunction?: (value: S) => string) {
+		return new HashSet([...this.values.values()].map(callback), newHashFunction);
+	}
 	static union<T>(...sets: HashSet<T>[]) {
 		const result = new HashSet<T>([], sets[0]?.hashFunction ?? (x => `${x}`));
 		for(const set of sets) {

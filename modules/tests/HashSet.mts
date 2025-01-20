@@ -60,6 +60,16 @@ describe("HashSet iterator", () => {
 		assert.sameDeepOrderedMembers(values, [[1, 2], [3]]);
 	});
 });
+describe("HashSet.map", () => {
+	it("returns a new HashSet containing the values obtained after applying the function", () => {
+		const set = new HashSet([[1, 2], [3, 4]]);
+		const mapped = set.map(arr => [...arr, 0]);
+		assert.sameDeepMembers([...mapped], [
+			[1, 2, 0],
+			[3, 4, 0]
+		]);
+	});
+});
 describe("HashSet.union", () => {
 	it("can compute the union of two sets", () => {
 		const result = HashSet.union(
