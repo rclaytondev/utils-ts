@@ -87,6 +87,14 @@ describe("HashSet.union", () => {
 		assert.deepEqual([...result], []);
 	});
 });
+describe("HashSet.difference", () => {
+	it("returns the set consisting of all elements of the first set that are not in the second", () => {
+		const set1 = new HashSet([[1, 2], [3, 4]]);
+		const set2 = new HashSet([[3, 4], [5, 6]]);
+		const difference = set1.difference(set2);
+		assert.deepEqual([...difference], [ [1, 2] ]);
+	});
+});
 describe("HashSet.equals", () => {
 	it("returns true if the sets contain the same elements, ignoring order", () => {
 		const set1 = new HashSet([[1, 2], [3, 4]]);

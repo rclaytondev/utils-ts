@@ -50,6 +50,15 @@ export class HashSet<T> {
 		}
 		return result;
 	}
+	difference(set: HashSet<T>) {
+		const result = new HashSet<T>();
+		for(const [hash, value] of this.values.entries()) {
+			if(!set.values.has(hash)) {
+				result.add(value);
+			}
+		}
+		return result;
+	}
 	equals(set: HashSet<T>) {
 		return this.toString() === set.toString();
 	}
