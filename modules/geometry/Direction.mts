@@ -19,4 +19,18 @@ export class Directions {
 	static isDirection(value: unknown): value is Direction {
 		return Directions.DIRECTIONS.some(v => v === value);
 	}
+	static rotateClockwise(direction: Direction) {
+		if(direction === "left") { return "up"; }
+		else if(direction === "up") { return "right"; }
+		else if(direction === "right") { return "down"; }
+		else if(direction === "down") { return "left"; }
+		else { const _: never = direction; throw new Error(); }
+	}
+	static rotateCounterclockwise(direction: Direction) {
+		if(direction === "left") { return "down"; }
+		else if(direction === "down") { return "right"; }
+		else if(direction === "right") { return "up"; }
+		else if(direction === "up") { return "left"; }
+		else { const _: never = direction; throw new Error(); }
+	}
 };
