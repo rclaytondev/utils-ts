@@ -220,6 +220,15 @@ export class CanvasIO {
 		else if(event.key === "ArrowDown") { return "down"; }
 		else { return null; }
 	}
+	numberKeys() {
+		const keys = [];
+		for(let i = 0; i <= 9; i ++) {
+			if(this.keys[`Digit${i}`]) {
+				keys.push(i);
+			}
+		}
+		return keys;
+	}
 }
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
