@@ -33,4 +33,9 @@ export class Directions {
 		else if(direction === "up") { return "left"; }
 		else { const _: never = direction; throw new Error(); }
 	}
+	static reflectX(direction: Direction) {
+		if(direction === "left") { return "right"; }
+		if(direction === "right") { return "left"; }
+		return direction;
+	}
 };
