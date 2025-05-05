@@ -236,6 +236,25 @@ export class CanvasIO {
 		}
 		return keys;
 	}
+
+	regularPolygon(center: Vector, size: number, numSides: number) {
+		this.ctx.moveTo(center.x + size, center.y);
+		for(let i = 1; i < numSides; i ++) {
+			const angle = i / numSides * 2 * Math.PI;
+			this.ctx.lineTo(center.x + size * Math.cos(angle), center.y + size * Math.sin(angle));
+		}
+		this.ctx.closePath();
+	}
+	fillRegularPoly(center: Vector, size: number, numSides: number) {
+		this.ctx.beginPath();
+		this.regularPolygon(center, size, numSides);
+		this.ctx.fill();
+	}
+	strokeRegularPoly(center: Vector, size: number, numSides: number) {
+		this.ctx.beginPath();
+		this.regularPolygon(center, size, numSides);
+		this.ctx.stroke();
+	}
 }
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
