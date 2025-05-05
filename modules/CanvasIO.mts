@@ -220,6 +220,13 @@ export class CanvasIO {
 		else if(event.key === "ArrowDown") { return "down"; }
 		else { return null; }
 	}
+	keyDirection() {
+		if(this.keys["ArrowRight"]) { return "right"; }
+		else if(this.keys["ArrowLeft"]) { return "left"; }
+		else if(this.keys["ArrowUp"]) { return "up"; }
+		else if(this.keys["ArrowDown"]) { return "down"; }
+		else { return null; }
+	}
 	numberKeys() {
 		const keys = [];
 		for(let i = 0; i <= 9; i ++) {
