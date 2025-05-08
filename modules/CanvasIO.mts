@@ -13,6 +13,7 @@ export class CanvasIO {
 		pressed: boolean,
 		button: "right" | "left" | null
 	};
+	linePointedness: number = 1;
 
 	constructor(canvasID = "", parentElement = document.body) {
 		this.canvas = document.createElement("canvas");
@@ -211,6 +212,44 @@ export class CanvasIO {
 			);
 			this.ctx.fill();
 		}
+	}
+	pointedLine(x1: number, y1: number, x2: number, y2: number, pointed: boolean = true) {
+		if(!pointed) {
+			this.strokeLine(x1, y1, x2, y2);
+			return;
+		}
+		const tangent = new Vector(x2 - x1, y2 - y1).normalize();
+		const normal = new Vector(-tangent.y, tangent.x);
+		this.ctx.fillStyle = this.ctx.strokeStyle;
+		this.fillPoly(
+			x1 + normal.x / 2 * this.ctx.lineWidth, y1 + normal.y / 2 * this.ctx.lineWidth,
+			x2 + normal.x / 2 * this.ctx.lineWidth, y2 + normal.y / 2 * this.ctx.lineWidth,
+			x2 + tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y2 + tangent.y / 2 * this.ctx.lineWidth * this.linePointedness,
+			x2 - normal.x / 2 * this.ctx.lineWidth, y2 - normal.y / 2 * this.ctx.lineWidth,
+			x1 - normal.x / 2 * this.ctx.lineWidth, y1 - normal.y / 2 * this.ctx.lineWidth,
+			x1 - tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y1 - tangent.y / 2 * this.ctx.lineWidth * this.linePointedness,
+		);
+	}
+	halfPointedLine(x1: number, y1: number, x2: number, y2: number, pointed: boolean = true) {
+		if(!pointed) {
+			this.strokeLine(x1, y1, x2, y2);
+			return;
+		}
+		const tangent = new Vector(x2 - x1, y2 - y1).normalize();
+		const normal = new Vector(-tangent.y, tangent.x);
+		this.ctx.fillStyle = this.ctx.strokeStyle;
+		this.ctx.beginPath();
+		this.ctx.moveTo(x1 + normal.x / 2 * this.ctx.lineWidth, y1 + normal.y / 2 * this.ctx.lineWidth);
+		this.ctx.lineTo(x2 + normal.x / 2 * this.ctx.lineWidth, y2 + normal.y / 2 * this.ctx.lineWidth);
+		this.ctx.lineTo(x2 + tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y2 + tangent.y / 2 * this.ctx.lineWidth * this.linePointedness);
+		this.ctx.lineTo(x2 - normal.x / 2 * this.ctx.lineWidth, y2 - normal.y / 2 * this.ctx.lineWidth);		
+		this.ctx.lineTo(x1 - normal.x / 2 * this.ctx.lineWidth, y1 - normal.y / 2 * this.ctx.lineWidth);
+		this.ctx.arc(
+			x1, y1, this.ctx.lineWidth / 2,
+			tangent.angle() + Math.PI / 2,
+			tangent.angle() + 3 * Math.PI / 2
+		);
+		this.ctx.fill();
 	}
 
 	static keyDirection(event: KeyboardEvent): Direction | null {
