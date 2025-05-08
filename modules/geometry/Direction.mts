@@ -38,4 +38,10 @@ export class Directions {
 		if(direction === "right") { return "left"; }
 		return direction;
 	}
+	static angle(direction: Direction) {
+		if(direction === "right") { return 0; }
+		else if(direction === "up") { return Math.PI / 2; }
+		else if(direction === "left") { return Math.PI; }
+		else { return Math.PI * 3/2; }
+	}
 };
