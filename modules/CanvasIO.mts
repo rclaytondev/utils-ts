@@ -251,6 +251,11 @@ export class CanvasIO {
 		);
 		this.ctx.fill();
 	}
+	clipRect(x: number, y: number, width: number, height: number) {
+		this.ctx.beginPath();
+		this.ctx.rect(x, y, width, height);
+		this.ctx.clip();
+	}
 
 	static keyDirection(event: KeyboardEvent): Direction | null {
 		if(event.key === "ArrowRight") { return "right"; }
