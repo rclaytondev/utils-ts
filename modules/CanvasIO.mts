@@ -165,6 +165,11 @@ export class CanvasIO {
 		this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
 		this.ctx.fill();
 	}
+	fillArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise: boolean = false) {
+		this.ctx.beginPath();
+		this.ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+		this.ctx.fill();
+	}
 	fillDiamond(x: number, y: number, radius: number) {
 		this.fillPoly(
 			x - radius, y,
