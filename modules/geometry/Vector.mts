@@ -119,4 +119,7 @@ export class Vector {
 	angle() {
 		return Math.atan2(this.y, this.x);
 	}
+	floor() {
+		return new Vector(Math.floor(this.x), Math.floor(this.y));
+	}
 }
