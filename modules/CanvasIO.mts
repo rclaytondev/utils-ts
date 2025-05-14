@@ -1,4 +1,4 @@
-import { Direction } from "./geometry/Direction.mjs";
+import { Diagonal, Direction, Directions } from "./geometry/Direction.mjs";
 import { Rectangle } from "./geometry/Rectangle.mjs";
 import { Vector } from "./geometry/Vector.mjs";
 import { MathUtils } from "./math/MathUtils.mjs";
@@ -260,6 +260,11 @@ export class CanvasIO {
 		this.ctx.beginPath();
 		this.ctx.rect(x, y, width, height);
 		this.ctx.clip();
+	}
+	rotateTo(start: Direction | Diagonal | number, end: Direction | Diagonal | number) {
+		const startAngle = typeof start === "number" ? start : Directions.angle(start);
+		const endAngle = typeof end === "number" ? end : Directions.angle(end);
+		this.ctx.rotate(startAngle - endAngle);
 	}
 
 	static keyDirection(event: KeyboardEvent): Direction | null {
