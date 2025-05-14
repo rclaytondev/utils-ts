@@ -1,7 +1,9 @@
 export type Direction = (typeof Directions.DIRECTIONS)[number];
+export type Diagonal = (typeof Directions.DIAGONALS)[number];
 
 export class Directions {
 	static DIRECTIONS = ["left", "right", "up", "down"] as const;
+	static DIAGONALS = ["up-left", "up-right", "down-left", "down-right"] as const;
 
 	static opposite(direction: Direction) {
 		if(direction === "left") { return "right"; }
@@ -38,10 +40,14 @@ export class Directions {
 		if(direction === "right") { return "left"; }
 		return direction;
 	}
-	static angle(direction: Direction) {
+	static angle(direction: Direction | Diagonal) {
 		if(direction === "right") { return 0; }
+		else if(direction === "up-right") { return Math.PI / 4; }
 		else if(direction === "up") { return Math.PI / 2; }
+		else if(direction === "up-left") { return 3 * Math.PI / 4; }
 		else if(direction === "left") { return Math.PI; }
-		else { return Math.PI * 3/2; }
+		else if(direction === "down-left") { return 5 * Math.PI / 4; }
+		else if(direction === "down") { return Math.PI * 3/2; }
+		else { return 7 * Math.PI / 4; }
 	}
 };
