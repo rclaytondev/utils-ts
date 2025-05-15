@@ -27,9 +27,6 @@ export class CanvasIO {
 			pressed: false,
 			button: null,
 		};
-
-		this.attach();
-		this.addEventListeners();
 	}
 
 	attach() {
@@ -312,4 +309,10 @@ export class CanvasIO {
 }
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-export const canvasIO = isBrowser() ? new CanvasIO() : null;
+let canvasIO: CanvasIO | null = null;
+if(isBrowser()) {
+	canvasIO = new CanvasIO();
+	canvasIO.attach();
+	canvasIO.addEventListeners();
+}
+export { canvasIO as canvasIO };
