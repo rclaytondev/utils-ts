@@ -258,6 +258,12 @@ export class CanvasIO {
 		this.ctx.rect(x, y, width, height);
 		this.ctx.clip();
 	}
+	clipArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise: boolean = false) {
+		this.ctx.beginPath();
+		this.ctx.moveTo(x, y);
+		this.ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+		this.ctx.clip();
+	}
 	rotateTo(start: Direction | Diagonal | number, end: Direction | Diagonal | number) {
 		const startAngle = typeof start === "number" ? start : Directions.angle(start);
 		const endAngle = typeof end === "number" ? end : Directions.angle(end);
