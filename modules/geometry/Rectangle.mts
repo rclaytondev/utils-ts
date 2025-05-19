@@ -19,6 +19,9 @@ export class Rectangle {
 	static fromOppositeCorners(corner1: Vector, corner2: Vector) {
 		return Rectangle.fromBounds(corner1.x, corner2.x, corner1.y, corner2.y);
 	}
+	static fromCenter(centerX: number, centerY: number, width: number, height: number) {
+		return new Rectangle(centerX - width / 2, centerY - height / 2, width, height);
+	}
 
 	left() {
 		return this.x;
