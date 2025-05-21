@@ -128,4 +128,10 @@ export class Vector {
 	round() {
 		return new Vector(Math.round(this.x), Math.round(this.y));
 	}
+	reflectX() {
+		return new Vector(-this.x, this.y);
+	}
+	reflectY() {
+		return new Vector(this.x, -this.y);
+	}
 }
