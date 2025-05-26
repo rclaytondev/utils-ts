@@ -22,6 +22,9 @@ export class Rectangle {
 	static fromCenter(centerX: number, centerY: number, width: number, height: number) {
 		return new Rectangle(centerX - width / 2, centerY - height / 2, width, height);
 	}
+	static square(x: number, y: number, size: number) {
+		return new Rectangle(x, y, size, size);
+	}
 
 	left() {
 		return this.x;
