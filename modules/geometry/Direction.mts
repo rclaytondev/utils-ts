@@ -21,6 +21,9 @@ export class Directions {
 	static isDirection(value: unknown): value is Direction {
 		return Directions.DIRECTIONS.some(v => v === value);
 	}
+	static isDiagonal(value: unknown): value is Diagonal {
+		return Directions.DIAGONALS.includes(value as any);
+	}
 	static rotateClockwise(direction: Direction) {
 		if(direction === "left") { return "up"; }
 		else if(direction === "up") { return "right"; }
