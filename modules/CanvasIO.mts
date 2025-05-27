@@ -277,12 +277,25 @@ export class CanvasIO {
 		else if(event.key === "ArrowDown") { return "down"; }
 		else { return null; }
 	}
-	keyDirection() {
-		if(this.keys["ArrowRight"]) { return "right"; }
-		else if(this.keys["ArrowLeft"]) { return "left"; }
-		else if(this.keys["ArrowUp"]) { return "up"; }
-		else if(this.keys["ArrowDown"]) { return "down"; }
-		else { return null; }
+	keyDirection(allowDiagonals: true): Direction | Diagonal | null;
+	keyDirection(allowDiagonals: false): Direction | null;
+	keyDirection(allowDiagonals: boolean): Direction | Diagonal | null {
+		const left = (this.keys["ArrowLeft"] && !this.keys["ArrowRight"]);
+		const right = (this.keys["ArrowRight"] && !this.keys["ArrowLeft"]);
+		const up = (this.keys["ArrowUp"] && !this.keys["ArrowDown"]);
+		const down = (this.keys["ArrowDown"] && !this.keys["ArrowUp"]);
+
+		if(left && up && allowDiagonals) { return "up-left"; }
+		if(right && up && allowDiagonals) { return "up-right"; }
+		if(left && down && allowDiagonals) { return "down-left"; }
+		if(right && down && allowDiagonals) { return "down-right"; }
+
+		if(left) { return "left"; }
+		if(right) { return "right"; }
+		if(up) { return "up"; }
+		if(down) { return "down"; }
+
+		return null;
 	}
 	numberKeys() {
 		const keys = [];
