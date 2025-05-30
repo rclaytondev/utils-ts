@@ -49,8 +49,8 @@ export class Rectangle {
 	translate(offset: Vector) {
 		return new Rectangle(this.x + offset.x, this.y + offset.y, this.width, this.height);
 	}
-	scale(num: number) {
-		return new Rectangle(this.x * num, this.y * num, this.width * num, this.height * num);
+	scale(amountX: number, amountY: number = amountX) {
+		return new Rectangle(this.x * amountX, this.y * amountY, this.width * amountX, this.height * amountY);
 	}
 	intersects(rectangle: Rectangle) {
 		return (
