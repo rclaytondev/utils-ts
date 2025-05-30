@@ -25,6 +25,13 @@ export class Rectangle {
 	static square(x: number, y: number, size: number) {
 		return new Rectangle(x, y, size, size);
 	}
+	static boundingBox(points: Vector[]) {
+		const left = Math.min(...points.map(p => p.x));
+		const right = Math.max(...points.map(p => p.x));
+		const top = Math.min(...points.map(p => p.y));
+		const bottom = Math.max(...points.map(p => p.y));
+		return Rectangle.fromBounds(left, right, top, bottom);
+	}
 
 	left() {
 		return this.x;
