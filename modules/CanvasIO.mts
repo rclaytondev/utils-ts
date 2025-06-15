@@ -267,8 +267,8 @@ export class CanvasIO {
 		this.ctx.clip();
 	}
 	rotateTo(start: Direction | Diagonal | number, end: Direction | Diagonal | number) {
-		const startAngle = typeof start === "number" ? start : Directions.angle(start);
-		const endAngle = typeof end === "number" ? end : Directions.angle(end);
+		const startAngle = typeof start === "number" ? start : Directions.angle[start];
+		const endAngle = typeof end === "number" ? end : Directions.angle[end];
 		this.ctx.rotate(startAngle - endAngle);
 	}
 

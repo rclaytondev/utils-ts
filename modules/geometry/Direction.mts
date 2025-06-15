@@ -5,52 +5,51 @@ export class Directions {
 	static DIRECTIONS = ["left", "right", "up", "down"] as const;
 	static DIAGONALS = ["up-left", "up-right", "down-left", "down-right"] as const;
 
-	static opposite(direction: Direction) {
-		if(direction === "left") { return "right"; }
-		else if(direction === "right") { return "left"; }
-		else if(direction === "up") { return "down"; }
-		else if(direction === "down") { return "up"; }
-		else { const _: never = direction; throw new Error(); }
-	}
-	static isHorizontal(direction: Direction) {
-		return direction === "left" || direction === "right";
-	}
-	static isVertical(direction: Direction) {
-		return direction === "up" || direction === "down";
-	}
 	static isDirection(value: unknown): value is Direction {
 		return Directions.DIRECTIONS.some(v => v === value);
 	}
 	static isDiagonal(value: unknown): value is Diagonal {
 		return Directions.DIAGONALS.includes(value as any);
 	}
-	static rotateClockwise(direction: Direction) {
-		if(direction === "left") { return "up"; }
-		else if(direction === "up") { return "right"; }
-		else if(direction === "right") { return "down"; }
-		else if(direction === "down") { return "left"; }
-		else { const _: never = direction; throw new Error(); }
+	static isHorizontal(value: unknown): value is "left" | "right" {
+		return (value === "left" || value === "right");
 	}
-	static rotateCounterclockwise(direction: Direction) {
-		if(direction === "left") { return "down"; }
-		else if(direction === "down") { return "right"; }
-		else if(direction === "right") { return "up"; }
-		else if(direction === "up") { return "left"; }
-		else { const _: never = direction; throw new Error(); }
+	static isVertical(value: unknown): value is "up" | "down" {
+		return (value === "up" || value === "down");
 	}
-	static reflectX(direction: Direction) {
-		if(direction === "left") { return "right"; }
-		if(direction === "right") { return "left"; }
-		return direction;
-	}
-	static angle(direction: Direction | Diagonal) {
-		if(direction === "right") { return 0; }
-		else if(direction === "up-right") { return Math.PI / 4; }
-		else if(direction === "up") { return Math.PI / 2; }
-		else if(direction === "up-left") { return 3 * Math.PI / 4; }
-		else if(direction === "left") { return Math.PI; }
-		else if(direction === "down-left") { return 5 * Math.PI / 4; }
-		else if(direction === "down") { return Math.PI * 3/2; }
-		else { return 7 * Math.PI / 4; }
-	}
+
+	static opposite = {
+		"left": "right",
+		"right": "left",
+		"up": "down",
+		"down": "up"
+	} as const;
+	static rotateClockwise = {
+		"left": "up",
+		"up": "right",
+		"right": "down",
+		"down": "left"
+	} as const;
+	static rotateCounterclockwise = {
+		"left": "down",
+		"down": "right",
+		"right": "up",
+		"up": "left"
+	} as const;
+	static reflectX = {
+		"left": "right",
+		"right": "left",
+		"up": "up",
+		"down": "down"
+	} as const;
+	static angle = {
+		"right": 0,
+		"up-right": Math.PI / 4,
+		"up": Math.PI / 2,
+		"up-left": 3 * Math.PI / 4,
+		"left": Math.PI,
+		"down-left": 5 * Math.PI / 4,
+		"down": 3 * Math.PI / 2,
+		"down-right": 7 * Math.PI / 4
+	} as const;
 };
