@@ -22,25 +22,41 @@ export class Directions {
 		"left": "right",
 		"right": "left",
 		"up": "down",
-		"down": "up"
+		"down": "up",
+		"up-left": "down-right",
+		"up-right": "down-left",
+		"down-left": "up-right",
+		"down-right": "up-left"
 	} as const;
 	static rotateClockwise = {
 		"left": "up",
 		"up": "right",
 		"right": "down",
-		"down": "left"
+		"down": "left",
+		"up-left": "up-right",
+		"up-right": "down-right",
+		"down-right": "down-left",
+		"down-left": "up-left"
 	} as const;
 	static rotateCounterclockwise = {
 		"left": "down",
 		"down": "right",
 		"right": "up",
-		"up": "left"
+		"up": "left",
+		"up-left": "down-left",
+		"down-left": "down-right",
+		"down-right": "up-right",
+		"up-right": "up-left"
 	} as const;
 	static reflectX = {
 		"left": "right",
 		"right": "left",
 		"up": "up",
-		"down": "down"
+		"down": "down",
+		"up-left": "up-right",
+		"up-right": "up-left",
+		"down-left": "down-right",
+		"down-right": "down-left"
 	} as const;
 	static angle = {
 		"right": 0,
