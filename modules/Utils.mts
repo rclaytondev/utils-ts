@@ -10,10 +10,16 @@ export type Tuple<T, N extends number> = N extends N ? number extends N ? T[] : 
 
 export class Utils {
 	static randomItem<T>(items: readonly T[]) {
+		if(items.length === 0) {
+			throw new Error("Cannot choose a random index from an empty array.");
+		}
 		const index = Math.floor(Math.random() * items.length);
 		return items[index];
 	}
 	static randomIndex<T>(items: readonly T[]) {
+		if(items.length === 0) {
+			throw new Error("Cannot choose a random item from an empty array.");
+		}
 		const index = Math.floor(Math.random() * items.length);
 		return index;
 	}
