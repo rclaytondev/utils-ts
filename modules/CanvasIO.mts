@@ -87,6 +87,12 @@ export class CanvasIO {
 	fillRect(rectangle: Rectangle) {
 		this.ctx.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
+	fillSquare(x: number, y: number, size: number) {
+		this.ctx.fillRect(x, y, size, size);
+	}
+	strokeSquare(x: number, y: number, size: number) {
+		this.ctx.strokeRect(x, y, size, size);
+	}
 	strokeLine(x1: number, y1: number, x2: number, y2: number) {
 		this.ctx.beginPath();
 		this.ctx.moveTo(x1, y1);
