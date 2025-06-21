@@ -1,5 +1,3 @@
-import { MathUtils } from "./MathUtils.mjs";
-
 export class Sequence {
 	/*
 	Represents an increasing infinite sequence of numbers, indexed starting at 0.
@@ -57,6 +55,7 @@ export class Sequence {
 		return result;
 	}
 	filter(callback: (value: number, index: number) => boolean) {
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
 		const self = this;
 		return new Sequence(function*() {
 			for(const [index, value] of self.entries()) {

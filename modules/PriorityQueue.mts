@@ -66,7 +66,7 @@ export class PriorityQueue<T> {
 			}
 		}
 	}
-	
+
 	length() {
 		return this.heap.length;
 	}

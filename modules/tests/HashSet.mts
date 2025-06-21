@@ -66,7 +66,7 @@ describe("HashSet.map", () => {
 		const mapped = set.map(arr => [...arr, 0]);
 		assert.sameDeepMembers([...mapped], [
 			[1, 2, 0],
-			[3, 4, 0]
+			[3, 4, 0],
 		]);
 	});
 });
@@ -74,12 +74,12 @@ describe("HashSet.union", () => {
 	it("can compute the union of two sets", () => {
 		const result = HashSet.union(
 			new HashSet([[1, 2], [3, 4]]),
-			new HashSet([[3, 4], [5, 6]])
+			new HashSet([[3, 4], [5, 6]]),
 		);
 		assert.deepEqual([...result], [
 			[1, 2],
 			[3, 4],
-			[5, 6]
+			[5, 6],
 		]);
 	});
 	it("can compute the union of no sets, returning an empty set with the default hash function", () => {

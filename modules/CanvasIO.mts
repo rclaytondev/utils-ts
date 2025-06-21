@@ -180,7 +180,7 @@ export class CanvasIO {
 			x - radius, y,
 			x, y - radius,
 			x + radius, y,
-			x, y + radius
+			x, y + radius,
 		);
 	}
 	strokeCircle(x: number, y: number, radius: number) {
@@ -252,12 +252,12 @@ export class CanvasIO {
 		this.ctx.moveTo(x1 + normal.x / 2 * this.ctx.lineWidth, y1 + normal.y / 2 * this.ctx.lineWidth);
 		this.ctx.lineTo(x2 + normal.x / 2 * this.ctx.lineWidth, y2 + normal.y / 2 * this.ctx.lineWidth);
 		this.ctx.lineTo(x2 + tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y2 + tangent.y / 2 * this.ctx.lineWidth * this.linePointedness);
-		this.ctx.lineTo(x2 - normal.x / 2 * this.ctx.lineWidth, y2 - normal.y / 2 * this.ctx.lineWidth);		
+		this.ctx.lineTo(x2 - normal.x / 2 * this.ctx.lineWidth, y2 - normal.y / 2 * this.ctx.lineWidth);
 		this.ctx.lineTo(x1 - normal.x / 2 * this.ctx.lineWidth, y1 - normal.y / 2 * this.ctx.lineWidth);
 		this.ctx.arc(
 			x1, y1, this.ctx.lineWidth / 2,
 			tangent.angle() + Math.PI / 2,
-			tangent.angle() + 3 * Math.PI / 2
+			tangent.angle() + 3 * Math.PI / 2,
 		);
 		this.ctx.fill();
 	}

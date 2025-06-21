@@ -6,10 +6,10 @@ export class Directions {
 	static DIAGONALS = ["up-left", "up-right", "down-left", "down-right"] as const;
 
 	static isDirection(value: unknown): value is Direction {
-		return Directions.DIRECTIONS.some(v => v === value);
+		return (Directions.DIRECTIONS as readonly unknown[]).includes(value);
 	}
 	static isDiagonal(value: unknown): value is Diagonal {
-		return Directions.DIAGONALS.includes(value as any);
+		return (Directions.DIAGONALS as readonly unknown[]).includes(value);
 	}
 	static isHorizontal(value: unknown): value is "left" | "right" {
 		return (value === "left" || value === "right");
@@ -26,7 +26,7 @@ export class Directions {
 		"up-left": "down-right",
 		"up-right": "down-left",
 		"down-left": "up-right",
-		"down-right": "up-left"
+		"down-right": "up-left",
 	} as const;
 	static rotateClockwise = {
 		"left": "up",
@@ -36,7 +36,7 @@ export class Directions {
 		"up-left": "up-right",
 		"up-right": "down-right",
 		"down-right": "down-left",
-		"down-left": "up-left"
+		"down-left": "up-left",
 	} as const;
 	static rotateCounterclockwise = {
 		"left": "down",
@@ -46,7 +46,7 @@ export class Directions {
 		"up-left": "down-left",
 		"down-left": "down-right",
 		"down-right": "up-right",
-		"up-right": "up-left"
+		"up-right": "up-left",
 	} as const;
 	static reflectX = {
 		"left": "right",
@@ -56,7 +56,7 @@ export class Directions {
 		"up-left": "up-right",
 		"up-right": "up-left",
 		"down-left": "down-right",
-		"down-right": "down-left"
+		"down-right": "down-left",
 	} as const;
 	static angle = {
 		"right": 0,
@@ -66,6 +66,6 @@ export class Directions {
 		"left": Math.PI,
 		"down-left": 5 * Math.PI / 4,
 		"down": 3 * Math.PI / 2,
-		"down-right": 7 * Math.PI / 4
+		"down-right": 7 * Math.PI / 4,
 	} as const;
 };

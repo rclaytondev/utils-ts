@@ -24,10 +24,10 @@ describe("PriorityQueue.entries", () => {
 		queue.insert("qux", 10);
 		const values = [...queue.entries()];
 		assert.deepEqual(values, [
-			["foo", 1], 
-			["baz", 5], 
-			["qux", 10], 
-			["bar", 100]
+			["foo", 1],
+			["baz", 5],
+			["qux", 10],
+			["bar", 100],
 		]);
 	});
 });

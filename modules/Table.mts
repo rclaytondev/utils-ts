@@ -78,7 +78,7 @@ export class Table<T> {
 		return this.rows[y];
 	}
 	getColumn(x: number) {
-		let column = [];
+		const column = [];
 		const height = this.height;
 		for(let y = 0; y < height; y ++) {
 			column.push(this.rows[y][x]);

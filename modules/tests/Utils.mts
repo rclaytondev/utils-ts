@@ -403,7 +403,7 @@ describe("Utils.mapEquals", () => {
 		const map1 = new Map([[1, { x: 2 }]]);
 		const map2 = new Map([[1, { x: 2 }]]);
 		assert.isTrue(Utils.mapEquals(map1, map2, (a, b) => a.x === b.x));
-		
+
 		const map3 = new Map([[1, { x: 3 }]]);
 		assert.isFalse(Utils.mapEquals(map1, map3, (a, b) => a.x === b.x));
 	});

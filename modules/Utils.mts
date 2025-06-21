@@ -89,7 +89,7 @@ export class Utils {
 		}
 		for(const [key, value] of map1) {
 			if(
-				!map2.has(key) || 
+				!map2.has(key) ||
 				(!equals && map1.get(key) !== map2.get(key)) ||
 				(equals && !equals(value, map2.get(key)!))
 			) { return false; }
@@ -216,7 +216,7 @@ export class Utils {
 		const set2 = iterable2 instanceof Set ? (iterable2 as Set<S>) : new Set(iterable2);
 		const result = new Set<T | S>();
 		for(const value of iterable1) {
-			if(set2.has(value as any)) {
+			if((set2 as Set<unknown>).has(value)) {
 				result.add(value);
 			}
 		}
@@ -373,7 +373,7 @@ export class Utils {
 			return result;
 		};
 	}
-	
+
 	static injections<T, S>(domain: Iterable<T>, range: Iterable<S>): Map<T, S>[] {
 		if([...domain].length === 0) {
 			return [new Map()];

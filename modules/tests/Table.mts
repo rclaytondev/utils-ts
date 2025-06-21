@@ -7,7 +7,7 @@ describe("Table.slice", () => {
 	it("extracts a rectangular subregion into a Table", () => {
 		const table = new Table([
 			["a", "b", "c"],
-			["d", "e", "f"]
+			["d", "e", "f"],
 		]);
 		const subtable = table.slice(1, 0, 2, 1);
 		assert.deepEqual(subtable, new Table([["b", "c"]]));
@@ -15,20 +15,20 @@ describe("Table.slice", () => {
 	it("reduces the width and/or height of the subregion if they are too big", () => {
 		const table = new Table([
 			["a", "b", "c"],
-			["d", "e", "f"]
+			["d", "e", "f"],
 		]);
 		assert.deepEqual(
-			table.slice(1, 0, 100, 200), 
+			table.slice(1, 0, 100, 200),
 			new Table([
 				["b", "c"],
-				["e", "f"]
-			])
+				["e", "f"],
+			]),
 		);
 	});
 	it("works when the y-value of the top-left corner of the rectangle is nonzero", () => {
 		const table = new Table([
 			["a", "b", "c"],
-			["d", "e", "f"]
+			["d", "e", "f"],
 		]);
 		const subtable = table.slice(1, 1, 2, 1);
 		assert.deepEqual(subtable, new Table([["e", "f"]]));
@@ -39,7 +39,7 @@ describe("Table.findEntry", () => {
 		const table = new Table([
 			[1, 2, 3],
 			[4, 5, 6],
-			[7, 8, 9]
+			[7, 8, 9],
 		]);
 		const entry = table.findEntry((v, x, y) => y > 0 && x > 0 && v !== 5);
 		assert.deepEqual(entry, [2, 1, 6]);
@@ -48,7 +48,7 @@ describe("Table.findEntry", () => {
 		const table = new Table([
 			[1, 2, 3],
 			[4, 5, 6],
-			[7, 8, 9]
+			[7, 8, 9],
 		]);
 		const entry = table.findEntry(v => v > 1000);
 		assert.isNull(entry);
@@ -58,12 +58,12 @@ describe("Table.positionsOf", () => {
 	it("returns the positions at which the value occurs", () => {
 		const positions = new Table([
 			["a", "b", "c"],
-			["b", "a", "b"]
+			["b", "a", "b"],
 		]).positionsOf("b");
 		assert.sameDeepMembers(positions, [
 			new Vector(1, 0),
 			new Vector(0, 1),
-			new Vector(2, 1)
+			new Vector(2, 1),
 		]);
 	});
 });
