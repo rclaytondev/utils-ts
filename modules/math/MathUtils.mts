@@ -11,7 +11,11 @@ export class MathUtils {
 	static toRadians(degrees: number) {
 		return degrees / 180 * Math.PI;
 	}
+	static toDegrees(radians: number) {
+		return radians / Math.PI * 180;
+	}
 	static constrain(value: number, min: number, max: number) {
+		[min, max] = [Math.min(min, max), Math.max(min, max)];
 		if(value < min) { return min; }
 		if(value > max) { return max; }
 		return value;

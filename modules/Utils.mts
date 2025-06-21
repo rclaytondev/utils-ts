@@ -9,11 +9,17 @@ type _TupleOf<T, N extends number, R extends unknown[]> = R["length"] extends N 
 export type Tuple<T, N extends number> = N extends N ? number extends N ? T[] : _TupleOf<T, N, []> : never;
 
 export class Utils {
-	static randomItem<T>(items: Array<T>) {
+	static randomItem<T>(items: readonly T[]) {
+		if(items.length === 0) {
+			throw new Error("Cannot choose a random index from an empty array.");
+		}
 		const index = Math.floor(Math.random() * items.length);
 		return items[index];
 	}
-	static randomIndex<T>(items: Array<T>) {
+	static randomIndex<T>(items: readonly T[]) {
+		if(items.length === 0) {
+			throw new Error("Cannot choose a random item from an empty array.");
+		}
 		const index = Math.floor(Math.random() * items.length);
 		return index;
 	}
@@ -65,10 +71,10 @@ export class Utils {
 		}
 		return mode === "first" ? min : max;
 	}
-	static binaryIndexOf(value: number, sortedArray: number[], mode: "first" | "last") {
+	static binaryIndexOf(value: number, sortedArray: readonly number[], mode: "first" | "last") {
 		return Utils.binarySearch(0, sortedArray.length - 1, i => sortedArray[i] - value, mode);
 	}
-	static arrayEquals<T>(array1: T[], array2: T[], equals?: (v1: T, v2: T) => boolean) {
+	static arrayEquals<T>(array1: readonly T[], array2: readonly T[], equals?: (v1: T, v2: T) => boolean) {
 		if(array1.length !== array2.length) {
 			return false;
 		}
@@ -77,7 +83,7 @@ export class Utils {
 		}
 		return array1.every((v, i) => v === array2[i]);
 	}
-	static mapEquals<K, V>(map1: Map<K, V>, map2: Map<K, V>, equals?: (v1: V, v2: V) => boolean) {
+	static mapEquals<K, V>(map1: ReadonlyMap<K, V>, map2: ReadonlyMap<K, V>, equals?: (v1: V, v2: V) => boolean) {
 		if(map1.size !== map2.size) {
 			return false;
 		}
@@ -91,9 +97,9 @@ export class Utils {
 		return true;
 	}
 
-	static minEntry(items: number[]): [number, number, number];
-	static minEntry<T>(items: T[], callback: ((item: T, index: number) => number)): [number, T, number];
-	static minEntry<T>(items: T[], callback?: (item: T, index: number) => number) {
+	static minEntry(items: readonly number[]): [number, number, number];
+	static minEntry<T>(items: readonly T[], callback: ((item: T, index: number) => number)): [number, T, number];
+	static minEntry<T>(items: readonly T[], callback?: (item: T, index: number) => number) {
 		let minEntry: [number, T, number] = [0, items[0], callback ? callback(items[0] as T, 0) : items[0] as number];
 		for(let i = 1; i < items.length; i ++) {
 			const output = callback ? callback(items[i], i) : (items[i] as number);
@@ -104,8 +110,8 @@ export class Utils {
 		return minEntry;
 	}
 	static maxEntry(items: number[]): [number, number, number];
-	static maxEntry<T>(items: T[], callback: ((item: T, index: number) => number)): [number, T, number];
-	static maxEntry<T>(items: T[], callback?: (item: T, index: number) => number) {
+	static maxEntry<T>(items: readonly T[], callback: ((item: T, index: number) => number)): [number, T, number];
+	static maxEntry<T>(items: readonly T[], callback?: (item: T, index: number) => number) {
 		let minEntry: [number, T, number] = [0, items[0], callback ? callback(items[0] as T, 0) : items[0] as number];
 		for(let i = 1; i < items.length; i ++) {
 			const output = callback ? callback(items[i], i) : (items[i] as number);
@@ -117,38 +123,38 @@ export class Utils {
 	}
 
 	static minIndex(items: number[]): number;
-	static minIndex<T>(items: T[], callback: ((item: T, index: number) => number)): number;
-	static minIndex<T>(items: T[] | number[], callback?: (item: T, index: number) => number) {
+	static minIndex<T>(items: readonly T[], callback: ((item: T, index: number) => number)): number;
+	static minIndex<T>(items: readonly T[] | number[], callback?: (item: T, index: number) => number) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return Utils.minEntry(items as any, callback as any)[0];
 	}
 	static minValue(items: number[]): number;
-	static minValue<T>(items: T[], callback: ((item: T, index: number) => number)): T;
-	static minValue<T>(items: T[] | number[], callback?: (item: T, index: number) => number) {
+	static minValue<T>(items: readonly T[], callback: ((item: T, index: number) => number)): T;
+	static minValue<T>(items: readonly T[] | number[], callback?: (item: T, index: number) => number) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return Utils.minEntry(items as any, callback as any)[1];
 	}
 	static minOutput(items: number[]): number;
-	static minOutput<T>(items: T[], callback: ((item: T, index: number) => number)): number;
-	static minOutput<T>(items: T[] | number[], callback?: (item: T, index: number) => number) {
+	static minOutput<T>(items: readonly T[], callback: ((item: T, index: number) => number)): number;
+	static minOutput<T>(items: readonly T[] | number[], callback?: (item: T, index: number) => number) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return Utils.minEntry(items as any, callback as any)[2];
 	}
 	static maxIndex(items: number[]): number;
-	static maxIndex<T>(items: T[], callback: ((item: T, index: number) => number)): number;
-	static maxIndex<T>(items: T[] | number[], callback?: (item: T, index: number) => number) {
+	static maxIndex<T>(items: readonly T[], callback: ((item: T, index: number) => number)): number;
+	static maxIndex<T>(items: readonly T[] | number[], callback?: (item: T, index: number) => number) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return Utils.maxEntry(items as any, callback as any)[0];
 	}
 	static maxValue(items: number[]): number;
-	static maxValue<T>(items: T[], callback: ((item: T, index: number) => number)): T;
-	static maxValue<T>(items: T[] | number[], callback?: (item: T, index: number) => number) {
+	static maxValue<T>(items: readonly T[], callback: ((item: T, index: number) => number)): T;
+	static maxValue<T>(items: readonly T[] | number[], callback?: (item: T, index: number) => number) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return Utils.maxEntry(items as any, callback as any)[1];
 	}
 	static maxOutput(items: number[]): number;
-	static maxOutput<T>(items: T[], callback: ((item: T, index: number) => number)): number;
-	static maxOutput<T>(items: T[] | number[], callback?: (item: T, index: number) => number) {
+	static maxOutput<T>(items: readonly T[], callback: ((item: T, index: number) => number)): number;
+	static maxOutput<T>(items: readonly T[] | number[], callback?: (item: T, index: number) => number) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		return Utils.maxEntry(items as any, callback as any)[2];
 	}
@@ -178,7 +184,7 @@ export class Utils {
 		const combinations = new Array(power).fill(null).map(_ => [...set]);
 		yield* Utils.cartesianProduct(...combinations) as Generator<Tuple<T, N>>;
 	}
-	static *subsets<T>(items: Set<T> | Array<T>, size?: number): Generator<Set<T>> {
+	static *subsets<T>(items: Set<T> | T[], size?: number): Generator<Set<T>> {
 		if(typeof size !== "number") {
 			const setSize = (items instanceof Set) ? items.size : items.length;
 			for(let subsetSize = 0; subsetSize <= setSize; subsetSize ++) {

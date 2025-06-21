@@ -1,4 +1,4 @@
-import { Direction } from "./geometry/Direction.mjs";
+import { Diagonal, Direction, Directions } from "./geometry/Direction.mjs";
 import { Rectangle } from "./geometry/Rectangle.mjs";
 import { Vector } from "./geometry/Vector.mjs";
 import { MathUtils } from "./math/MathUtils.mjs";
@@ -13,6 +13,7 @@ export class CanvasIO {
 		pressed: boolean,
 		button: "right" | "left" | null
 	};
+	linePointedness: number = 1;
 
 	constructor(canvasID = "", parentElement = document.body) {
 		this.canvas = document.createElement("canvas");
@@ -26,9 +27,6 @@ export class CanvasIO {
 			pressed: false,
 			button: null,
 		};
-
-		this.attach();
-		this.addEventListeners();
 	}
 
 	attach() {
@@ -88,6 +86,12 @@ export class CanvasIO {
 	}
 	fillRect(rectangle: Rectangle) {
 		this.ctx.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+	}
+	fillSquare(x: number, y: number, size: number) {
+		this.ctx.fillRect(x, y, size, size);
+	}
+	strokeSquare(x: number, y: number, size: number) {
+		this.ctx.strokeRect(x, y, size, size);
 	}
 	strokeLine(x1: number, y1: number, x2: number, y2: number) {
 		this.ctx.beginPath();
@@ -164,6 +168,21 @@ export class CanvasIO {
 		this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
 		this.ctx.fill();
 	}
+	fillArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise: boolean = false) {
+		this.ctx.beginPath();
+		this.ctx.moveTo(x, y);
+		this.ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+		this.ctx.lineTo(x, y);
+		this.ctx.fill();
+	}
+	fillDiamond(x: number, y: number, radius: number) {
+		this.fillPoly(
+			x - radius, y,
+			x, y - radius,
+			x + radius, y,
+			x, y + radius
+		);
+	}
 	strokeCircle(x: number, y: number, radius: number) {
 		this.ctx.beginPath();
 		this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
@@ -204,6 +223,60 @@ export class CanvasIO {
 			this.ctx.fill();
 		}
 	}
+	pointedLine(x1: number, y1: number, x2: number, y2: number, pointed: boolean = true) {
+		if(!pointed) {
+			this.strokeLine(x1, y1, x2, y2);
+			return;
+		}
+		const tangent = new Vector(x2 - x1, y2 - y1).normalize();
+		const normal = new Vector(-tangent.y, tangent.x);
+		this.ctx.fillStyle = this.ctx.strokeStyle;
+		this.fillPoly(
+			x1 + normal.x / 2 * this.ctx.lineWidth, y1 + normal.y / 2 * this.ctx.lineWidth,
+			x2 + normal.x / 2 * this.ctx.lineWidth, y2 + normal.y / 2 * this.ctx.lineWidth,
+			x2 + tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y2 + tangent.y / 2 * this.ctx.lineWidth * this.linePointedness,
+			x2 - normal.x / 2 * this.ctx.lineWidth, y2 - normal.y / 2 * this.ctx.lineWidth,
+			x1 - normal.x / 2 * this.ctx.lineWidth, y1 - normal.y / 2 * this.ctx.lineWidth,
+			x1 - tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y1 - tangent.y / 2 * this.ctx.lineWidth * this.linePointedness,
+		);
+	}
+	halfPointedLine(x1: number, y1: number, x2: number, y2: number, pointed: boolean = true) {
+		if(!pointed) {
+			this.strokeLine(x1, y1, x2, y2);
+			return;
+		}
+		const tangent = new Vector(x2 - x1, y2 - y1).normalize();
+		const normal = new Vector(-tangent.y, tangent.x);
+		this.ctx.fillStyle = this.ctx.strokeStyle;
+		this.ctx.beginPath();
+		this.ctx.moveTo(x1 + normal.x / 2 * this.ctx.lineWidth, y1 + normal.y / 2 * this.ctx.lineWidth);
+		this.ctx.lineTo(x2 + normal.x / 2 * this.ctx.lineWidth, y2 + normal.y / 2 * this.ctx.lineWidth);
+		this.ctx.lineTo(x2 + tangent.x / 2 * this.ctx.lineWidth * this.linePointedness, y2 + tangent.y / 2 * this.ctx.lineWidth * this.linePointedness);
+		this.ctx.lineTo(x2 - normal.x / 2 * this.ctx.lineWidth, y2 - normal.y / 2 * this.ctx.lineWidth);		
+		this.ctx.lineTo(x1 - normal.x / 2 * this.ctx.lineWidth, y1 - normal.y / 2 * this.ctx.lineWidth);
+		this.ctx.arc(
+			x1, y1, this.ctx.lineWidth / 2,
+			tangent.angle() + Math.PI / 2,
+			tangent.angle() + 3 * Math.PI / 2
+		);
+		this.ctx.fill();
+	}
+	clipRect(x: number, y: number, width: number, height: number) {
+		this.ctx.beginPath();
+		this.ctx.rect(x, y, width, height);
+		this.ctx.clip();
+	}
+	clipArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise: boolean = false) {
+		this.ctx.beginPath();
+		this.ctx.moveTo(x, y);
+		this.ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise);
+		this.ctx.clip();
+	}
+	rotateTo(start: Direction | Diagonal | number, end: Direction | Diagonal | number) {
+		const startAngle = typeof start === "number" ? start : Directions.angle[start];
+		const endAngle = typeof end === "number" ? end : Directions.angle[end];
+		this.ctx.rotate(startAngle - endAngle);
+	}
 
 	static keyDirection(event: KeyboardEvent): Direction | null {
 		if(event.key === "ArrowRight") { return "right"; }
@@ -212,7 +285,61 @@ export class CanvasIO {
 		else if(event.key === "ArrowDown") { return "down"; }
 		else { return null; }
 	}
+	keyDirection(allowDiagonals: true): Direction | Diagonal | null;
+	keyDirection(allowDiagonals: false): Direction | null;
+	keyDirection(allowDiagonals: boolean): Direction | Diagonal | null {
+		const left = (this.keys["ArrowLeft"] && !this.keys["ArrowRight"]);
+		const right = (this.keys["ArrowRight"] && !this.keys["ArrowLeft"]);
+		const up = (this.keys["ArrowUp"] && !this.keys["ArrowDown"]);
+		const down = (this.keys["ArrowDown"] && !this.keys["ArrowUp"]);
+
+		if(left && up && allowDiagonals) { return "up-left"; }
+		if(right && up && allowDiagonals) { return "up-right"; }
+		if(left && down && allowDiagonals) { return "down-left"; }
+		if(right && down && allowDiagonals) { return "down-right"; }
+
+		if(left) { return "left"; }
+		if(right) { return "right"; }
+		if(up) { return "up"; }
+		if(down) { return "down"; }
+
+		return null;
+	}
+	numberKeys() {
+		const keys = [];
+		for(let i = 0; i <= 9; i ++) {
+			if(this.keys[`Digit${i}`]) {
+				keys.push(i);
+			}
+		}
+		return keys;
+	}
+
+	regularPolygon(center: Vector, size: number, numSides: number) {
+		this.ctx.moveTo(center.x + size, center.y);
+		for(let i = 1; i < numSides; i ++) {
+			const angle = i / numSides * 2 * Math.PI;
+			this.ctx.lineTo(center.x + size * Math.cos(angle), center.y + size * Math.sin(angle));
+		}
+		this.ctx.closePath();
+	}
+	fillRegularPoly(center: Vector, size: number, numSides: number) {
+		this.ctx.beginPath();
+		this.regularPolygon(center, size, numSides);
+		this.ctx.fill();
+	}
+	strokeRegularPoly(center: Vector, size: number, numSides: number) {
+		this.ctx.beginPath();
+		this.regularPolygon(center, size, numSides);
+		this.ctx.stroke();
+	}
 }
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-export const canvasIO = isBrowser() ? new CanvasIO() : null;
+let canvasIO: CanvasIO | null = null;
+if(isBrowser()) {
+	canvasIO = new CanvasIO();
+	canvasIO.attach();
+	canvasIO.addEventListeners();
+}
+export { canvasIO as canvasIO };

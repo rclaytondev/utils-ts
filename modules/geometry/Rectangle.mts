@@ -19,6 +19,19 @@ export class Rectangle {
 	static fromOppositeCorners(corner1: Vector, corner2: Vector) {
 		return Rectangle.fromBounds(corner1.x, corner2.x, corner1.y, corner2.y);
 	}
+	static fromCenter(centerX: number, centerY: number, width: number, height: number) {
+		return new Rectangle(centerX - width / 2, centerY - height / 2, width, height);
+	}
+	static square(x: number, y: number, size: number) {
+		return new Rectangle(x, y, size, size);
+	}
+	static boundingBox(points: Vector[]) {
+		const left = Math.min(...points.map(p => p.x));
+		const right = Math.max(...points.map(p => p.x));
+		const top = Math.min(...points.map(p => p.y));
+		const bottom = Math.max(...points.map(p => p.y));
+		return Rectangle.fromBounds(left, right, top, bottom);
+	}
 
 	left() {
 		return this.x;
@@ -36,14 +49,17 @@ export class Rectangle {
 	translate(offset: Vector) {
 		return new Rectangle(this.x + offset.x, this.y + offset.y, this.width, this.height);
 	}
-	scale(num: number) {
-		return new Rectangle(this.x * num, this.y * num, this.width * num, this.height * num);
+	scale(amountX: number, amountY: number = amountX) {
+		return new Rectangle(this.x * amountX, this.y * amountY, this.width * amountX, this.height * amountY);
 	}
 	intersects(rectangle: Rectangle) {
 		return (
 			this.x + this.width >= rectangle.x && this.x <= rectangle.x + rectangle.width &&
 			this.y + this.height >= rectangle.y && this.y <= rectangle.y + rectangle.height
 		);
+	}
+	contains(point: Vector) {
+		return point.x >= this.x && point.x <= this.right() && point.y >= this.y && point.y <= this.bottom();
 	}
 	area() {
 		return this.width * this.height;

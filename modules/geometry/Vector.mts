@@ -119,4 +119,19 @@ export class Vector {
 	angle() {
 		return Math.atan2(this.y, this.x);
 	}
+	floor() {
+		return new Vector(Math.floor(this.x), Math.floor(this.y));
+	}
+	ceil() {
+		return new Vector(Math.ceil(this.x), Math.ceil(this.y));
+	}
+	round() {
+		return new Vector(Math.round(this.x), Math.round(this.y));
+	}
+	reflectX() {
+		return new Vector(-this.x, this.y);
+	}
+	reflectY() {
+		return new Vector(this.x, -this.y);
+	}
 }

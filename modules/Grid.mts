@@ -3,11 +3,11 @@ import { Vector } from "./geometry/Vector.mjs";
 
 export class Grid<T> {
 	defaultValue: T;
-	values: Map<string, T>;
+	valuesMap: Map<string, T>;
 
 	constructor(defaultValue: T) {
 		this.defaultValue = defaultValue;
-		this.values = new Map();
+		this.valuesMap = new Map();
 	}
 	static fromPositions<T>(defaultValue: T, nondefaultValue: T, positions: Vector[]) {
 		const grid = new Grid<T>(defaultValue);
@@ -29,8 +29,8 @@ export class Grid<T> {
 		if(position.x % 1 !== 0 || position.y % 1 !== 0) {
 			throw new Error(`Cannot get value from grid; expected the coordinates to be integers, but instead got ${position.toString()}`);
 		}
-		if(this.values.has(string)) {
-			return this.values.get(string);
+		if(this.valuesMap.has(string)) {
+			return this.valuesMap.get(string);
 		}
 		else { return this.defaultValue; }
 	}
@@ -47,27 +47,30 @@ export class Grid<T> {
 				throw new Error(`Cannot set value in grid; expected the coordinates to be integers, but instead got ${position.toString()}`);
 			}
 			if(value === this.defaultValue) {
-				this.values.delete(position.toString());
+				this.valuesMap.delete(position.toString());
 			}
 			else {
-				this.values.set(position.toString(), value);
+				this.valuesMap.set(position.toString(), value);
 			}
 		}
 		return this;
 	}
 	has(position: Vector) {
-		return this.values.has(position.toString());
+		return this.valuesMap.has(position.toString());
 	}
 
 	*entries(): Generator<[T, Vector]> {
-		for(const [key, value] of this.values.entries()) {
+		for(const [key, value] of this.valuesMap.entries()) {
 			yield [value, Vector.parse(key)];
 		}
 	}
 	*positions() {
-		for(const key of this.values.keys()) {
+		for(const key of this.valuesMap.keys()) {
 			yield Vector.parse(key);
 		}
+	}
+	*values() {
+		yield* this.valuesMap.values();
 	}
 	map<S>(callback: (value: T, position?: Vector) => S) {
 		const grid = new Grid(callback(this.defaultValue));
