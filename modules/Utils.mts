@@ -276,6 +276,15 @@ export class Utils {
 		}
 		return true;
 	}
+	static isSubset<T>(iterable1: Iterable<T>, iterable2: Iterable<T>) {
+		const set2 = iterable2 instanceof Set ? (iterable2 as Set<T>) : new Set(iterable2);
+		for(const value of iterable1) {
+			if(!set2.has(value)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	private static remainingValidItems<T>(items: T[], index: number, allowRepetition: DuplicateMode, orderMode: OrderMode) {
 		if(orderMode === "tuples") {
