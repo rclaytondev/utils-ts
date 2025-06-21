@@ -1,5 +1,6 @@
 import { Rectangle } from "./geometry/Rectangle.mjs";
 import { Vector } from "./geometry/Vector.mjs";
+import { Utils } from "./Utils.mjs";
 
 export class Grid<T> {
 	defaultValue: T;
@@ -78,6 +79,14 @@ export class Grid<T> {
 			grid.set(position, callback(value, position));
 		}
 		return grid;
+	}
+	equals(grid: Grid<T>, equals: (v1: T, v2: T) => boolean = (v1, v2) => v1 === v2) {
+		if(!equals(this.defaultValue, grid.defaultValue)) {
+			return false;
+		}
+		const thisValues = Utils.filterMap(this.valuesMap, (k, v) => !equals(v, this.defaultValue));
+		const gridValues = Utils.filterMap(grid.valuesMap, (k, v) => !equals(v, grid.defaultValue));
+		return Utils.mapEquals(thisValues, gridValues, equals);
 	}
 
 	fillRect(rect: Rectangle, value: T) {

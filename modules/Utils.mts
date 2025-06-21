@@ -96,6 +96,15 @@ export class Utils {
 		}
 		return true;
 	}
+	static filterMap<K, V>(map: Map<K, V>, callback: (key: K, value: V) => boolean) {
+		const result = new Map<K, V>();
+		for(const [key, value] of map.entries()) {
+			if(callback(key, value)) {
+				result.set(key, value);
+			}
+		}
+		return result;
+	}
 
 	static minEntry(items: readonly number[]): [number, number, number];
 	static minEntry<T>(items: readonly T[], callback: ((item: T, index: number) => number)): [number, T, number];
