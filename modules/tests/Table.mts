@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { describe } from "mocha";
+import { describe, it } from "mocha";
 import { Table } from "../Table.mjs";
 import { Vector } from "../geometry/Vector.mjs";
 
