@@ -422,3 +422,13 @@ describe("Utils.intersection", () => {
 		assert.deepEqual(result, new Set([2]));
 	});
 });
+describe("Utils.groupBy", () => {
+	it("returns a map with the array elements grouped by the callback's value", () => {
+		const array = [1, 2, 3, 4, 5, 6, 7, 8];
+		const groups = Utils.groupBy(array, n => n % 2);
+		assert.deepEqual(groups, new Map([
+			[0, [2, 4, 6, 8]],
+			[1, [1, 3, 5, 7]],
+		]));
+	});
+});

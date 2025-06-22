@@ -105,6 +105,20 @@ export class Utils {
 		}
 		return result;
 	}
+	static groupBy<T, S>(array: T[], callback: (value: T) => S) {
+		const groups = new Map<S, T[]>();
+		for(const value of array) {
+			const output = callback(value);
+			const group = groups.get(output);
+			if(group) {
+				group.push(value);
+			}
+			else {
+				groups.set(output, [value]);
+			}
+		}
+		return groups;
+	}
 
 	static minEntry(items: readonly number[]): [number, number, number];
 	static minEntry<T>(items: readonly T[], callback: ((item: T, index: number) => number)): [number, T, number];
