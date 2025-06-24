@@ -1,4 +1,4 @@
-import { Direction } from "./Direction.mjs";
+import { Diagonal, Direction } from "./Direction.mjs";
 import { MathUtils } from "../math/MathUtils.mjs";
 
 export class Vector {
@@ -24,17 +24,31 @@ export class Vector {
 		const [_, num1, num2] = results;
 		return new Vector(Number.parseFloat(num1), Number.parseFloat(num2));
 	}
-	static unit(direction: Direction) {
+	static unit(direction: Direction | Diagonal) {
 		if(direction === "left") {
 			return new Vector(-1, 0);
 		}
-		else if(direction === "right") {
-			return new Vector(1, 0);
+		else if(direction === "up-left") {
+			return new Vector(-Math.SQRT1_2, -Math.SQRT1_2);
 		}
 		else if(direction === "up") {
 			return new Vector(0, -1);
 		}
-		else { return new Vector(0, 1); }
+		else if(direction === "up-right") {
+			return new Vector(Math.SQRT1_2, -Math.SQRT1_2);
+		}
+		else if(direction === "right") {
+			return new Vector(1, 0);
+		}
+		else if(direction === "down-right") {
+			return new Vector(Math.SQRT1_2, Math.SQRT1_2);
+		}
+		else if(direction === "down") {
+			return new Vector(0, 1);
+		}
+		else {
+			return new Vector(-Math.SQRT1_2, Math.SQRT1_2);
+		}
 	}
 
 	equals(vector: Vector): boolean;
