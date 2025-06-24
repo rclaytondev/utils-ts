@@ -50,6 +50,32 @@ export class Vector {
 			return new Vector(-Math.SQRT1_2, Math.SQRT1_2);
 		}
 	}
+	static gridUnit(direction: Direction | Diagonal) {
+		if(direction === "left") {
+			return new Vector(-1, 0);
+		}
+		else if(direction === "up-left") {
+			return new Vector(-1, -1);
+		}
+		else if(direction === "up") {
+			return new Vector(0, -1);
+		}
+		else if(direction === "up-right") {
+			return new Vector(1, -1);
+		}
+		else if(direction === "right") {
+			return new Vector(1, 0);
+		}
+		else if(direction === "down-right") {
+			return new Vector(1, 1);
+		}
+		else if(direction === "down") {
+			return new Vector(0, 1);
+		}
+		else {
+			return new Vector(-1, 1);
+		}
+	}
 
 	equals(vector: Vector): boolean;
 	equals(x: number, y: number): boolean;
