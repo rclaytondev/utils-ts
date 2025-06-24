@@ -48,6 +48,26 @@ export class Directions {
 		"down-right": "up-right",
 		"up-right": "up-left",
 	} as const;
+	static rotateClockwise45 = {
+		"right": "down-right",
+		"down-right": "down",
+		"down": "down-left",
+		"down-left": "left",
+		"left": "up-left",
+		"up-left": "up",
+		"up": "up-right",
+		"up-right": "right",
+	} as const;
+	static rotateCounterclockwise45 = {
+		"right": "up-right",
+		"up-right": "up",
+		"up": "up-left",
+		"up-left": "left",
+		"left": "down-left",
+		"down-left": "down",
+		"down": "down-right",
+		"down-right": "right",
+	} as const;
 	static reflectX = {
 		"left": "right",
 		"right": "left",
