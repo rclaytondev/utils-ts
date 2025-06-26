@@ -69,3 +69,42 @@ describe("Line.isPerpendicularTo", () => {
 		assert.isFalse(otherLine.isPerpendicularTo(horizontal));
 	});
 });
+describe("Line.intersection", () => {
+	it("returns the intersection point for two lines that intersect", () => {
+		const line1 = new Line(new Vector(0, 0), new Vector(10, 10));
+		const line2 = new Line(new Vector(0, 10), new Vector(10, 0));
+		const intersection = line1.intersection(line2);
+		assert.deepEqual(intersection, new Vector(5, 5));
+	});
+	it("returns null when the lines do not intersect", () => {
+		const line1 = new Line(new Vector(0, 0), new Vector(10, 10));
+		const line2 = new Line(new Vector(0, 10), new Vector(10, 20));
+		const intersection = line1.intersection(line2);
+		assert.equal(intersection, null);
+	});
+	it("returns null when there are infinitely many intersections", () => {
+		const line1 = new Line(new Vector(0, 0), new Vector(5, 5));
+		const line2 = new Line(new Vector(5, 5), new Vector(10, 10));
+		const intersection = line1.intersection(line2);
+		assert.equal(intersection, null);
+	});
+
+	it("returns null when the lines do not intersect and are vertical", () => {
+		const line1 = new Line(new Vector(0, 1), new Vector(0, 2));
+		const line2 = new Line(new Vector(1, 1), new Vector(1, 2));
+		const intersection = line1.intersection(line2);
+		assert.equal(intersection, null);
+	});
+	it("returns null when there are infinitely many intersections and the lines are vertical", () => {
+		const line1 = new Line(new Vector(0, 1), new Vector(0, 2));
+		const line2 = new Line(new Vector(0, 3), new Vector(0, 4));
+		const intersection = line1.intersection(line2);
+		assert.equal(intersection, null);
+	});
+	it("returns the intersection point when one of the lines is vertical", () => {
+		const line1 = new Line(new Vector(0, 1), new Vector(0, 2));
+		const line2 = new Line(new Vector(10, 20), new Vector(11, 21));
+		const intersection = line1.intersection(line2);
+		assert.deepEqual(intersection, new Vector(0, 10));
+	});
+});

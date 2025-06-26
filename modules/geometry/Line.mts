@@ -27,6 +27,53 @@ export class Line {
 		return this.endpoint1.x === this.endpoint2.x;
 	}
 
+	lineIntersection(line: Line) {
+		if(this.isVertical() && line.isVertical()) {
+			return null;
+		}
+		else if(this.isVertical() || line.isVertical()) {
+			const verticalLine = [this, line].find(v => v.isVertical())!;
+			const otherLine = [this, line].find(v => !v.isVertical())!;
+			return new Vector(
+				verticalLine.endpoint1.x,
+				otherLine.slope() * (verticalLine.endpoint1.x - otherLine.endpoint1.x) + otherLine.endpoint1.y,
+			);
+		}
+
+		const slope1 = this.slope();
+		const slope2 = line.slope();
+		if(slope1 === slope2) {
+			return null;
+		}
+		const yIntercept1 = this.yIntercept();
+		const yIntercept2 = line.yIntercept();
+		const xIntersection = (yIntercept2 - yIntercept1) / (slope1 - slope2);
+		const yIntersection = xIntersection * slope1 + yIntercept1;
+		return new Vector(xIntersection, yIntersection);
+	}
+	intersection(line: Line, line1Mode: "line" | "ray" | "segment" = "line", line2Mode: "line" | "ray" | "segment" = "line") {
+		const intersection = this.lineIntersection(line);
+		if(intersection === null) { return null; }
+		const onSameSide = (value: number, value1: number, value2: number) => {
+			if(value1 === value) { return true; }
+			return (value1 > value) === (value2 > value);
+		};
+		const contains = (l: Line, mode: "line" | "ray" | "segment") => (
+			!(
+				mode !== "line"
+				&& (!onSameSide(l.endpoint1.x, l.endpoint2.x, intersection.x) || !onSameSide(l.endpoint1.y, l.endpoint2.y, intersection.y))
+			)
+			&& !(
+				mode === "segment"
+				&& (!onSameSide(l.endpoint1.x, l.endpoint2.x, intersection.x) || !onSameSide(l.endpoint1.y, l.endpoint2.y, intersection.y))
+			)
+		);
+		if(!contains(this, line1Mode) || !contains(line, line2Mode)) {
+			return null;
+		}
+		return intersection;
+	}
+
 	contains(point: Vector) {
 		if(this.isVertical()) {
 			return point.x === this.endpoint1.x;
@@ -36,6 +83,9 @@ export class Line {
 
 	slope() {
 		return (this.endpoint1.y - this.endpoint2.y) / (this.endpoint1.x - this.endpoint2.x);
+	}
+	yIntercept() {
+		return (-this.slope() * this.endpoint1.x) + this.endpoint1.y;
 	}
 
 	isPerpendicularTo(line: Line) {
