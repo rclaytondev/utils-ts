@@ -76,6 +76,11 @@ export class Rectangle {
 	center() {
 		return new Vector(this.x + (this.width / 2), this.y + (this.height / 2));
 	}
+	distanceTo(point: Vector) {
+		const distX = (point.x < this.x) ? this.x - point.x : (point.x > this.right() ? point.x - this.right() : 0);
+		const distY = (point.y < this.y) ? this.y - point.y : (point.y > this.bottom() ? point.y - this.bottom() : 0);
+		return Math.hypot(distX, distY);
+	}
 
 	getEdgeSquares(direction: "left" | "right" | "top" | "bottom") {
 		const squares = [];
