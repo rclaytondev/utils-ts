@@ -228,10 +228,12 @@ export class Utils {
 			}
 		}
 	}
-	static union<T>(set1: Iterable<T>, set2: Iterable<T>) {
-		const result = new Set([...set1]);
-		for(const value of set2) {
-			result.add(value);
+	static union<T>(...sets: (Iterable<T>)[]) {
+		const result = new Set<T>();
+		for(const set of sets) {
+			for(const item of set) {
+				result.add(item);
+			}
 		}
 		return result;
 	}

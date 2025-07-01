@@ -282,6 +282,16 @@ describe("Utils.subsets", () => {
 		]);
 	});
 });
+describe("Utils.union", () => {
+	it("returns all the items that are in at least one of the iterables", () => {
+		const result = Utils.union(
+			[1, 2],
+			new Set([2, 3, 4, 5]),
+			[6, 7],
+		);
+		assert.deepEqual(result, new Set([1, 2, 3, 4, 5, 6, 7]));
+	});
+});
 describe("Utils.binarySearch", () => {
 	const array = [1, 1, 2, 2, 2, 3, 4, 5, 10];
 	it("works when there is a value for which the callback returns zero", () => {
