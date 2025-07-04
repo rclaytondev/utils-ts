@@ -73,6 +73,9 @@ export class Grid<T> {
 	*values() {
 		yield* this.valuesMap.values();
 	}
+	numValues() {
+		return this.valuesMap.size;
+	}
 	map<S>(callback: (value: T, position?: Vector) => S) {
 		const grid = new Grid(callback(this.defaultValue));
 		for(const [value, position] of this.entries()) {
