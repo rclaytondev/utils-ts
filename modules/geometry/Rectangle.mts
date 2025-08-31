@@ -102,6 +102,18 @@ export class Rectangle {
 			(corner === "top-left" || corner === "top-right") ? this.y : this.y + this.height,
 		);
 	}
+	edgeCenter(direction: Direction) {
+		if(direction === "up") {
+			return new Vector(this.x + this.width / 2, this.y);
+		}
+		if(direction === "down") {
+			return new Vector(this.x + this.width / 2, this.y + this.height);
+		}
+		if(direction === "left") {
+			return new Vector(this.x, this.y + this.height / 2);
+		}
+		return new Vector(this.x + this.width, this.y + this.height / 2);
+	}
 	collisionDirection(collidingRect: Rectangle): Direction {
 		const leftOverlap = collidingRect.right() - this.left();
 		const rightOverlap = this.right() - collidingRect.left();
