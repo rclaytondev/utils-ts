@@ -81,6 +81,20 @@ export class Rectangle {
 		const distY = (point.y < this.y) ? this.y - point.y : (point.y > this.bottom() ? point.y - this.bottom() : 0);
 		return Math.hypot(distX, distY);
 	}
+	extend(direction: Direction, amount: number) {
+		if(direction === "left") {
+			return new Rectangle(this.x - amount, this.y, this.width + amount, this.height);
+		}
+		else if(direction === "right") {
+			return new Rectangle(this.x, this.y, this.width + amount, this.height);
+		}
+		else if(direction === "up") {
+			return new Rectangle(this.x, this.y - amount, this.width, this.height + amount);
+		}
+		else {
+			return new Rectangle(this.x, this.y, this.width, this.height + amount);
+		}
+	}
 
 	getEdgeSquares(direction: "left" | "right" | "top" | "bottom") {
 		const squares = [];
