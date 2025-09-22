@@ -83,16 +83,28 @@ export class Rectangle {
 	}
 	extend(direction: Direction, amount: number) {
 		if(direction === "left") {
-			return new Rectangle(this.x - amount, this.y, this.width + amount, this.height);
+			return Rectangle.fromBounds(
+				Math.min(this.left() - amount, this.right()), this.right(),
+				this.top(), this.bottom(),
+			);
 		}
 		else if(direction === "right") {
-			return new Rectangle(this.x, this.y, this.width + amount, this.height);
+			return Rectangle.fromBounds(
+				this.left(), Math.max(this.right() + amount, this.left()),
+				this.top(), this.bottom(),
+			);
 		}
 		else if(direction === "up") {
-			return new Rectangle(this.x, this.y - amount, this.width, this.height + amount);
+			return Rectangle.fromBounds(
+				this.left(), this.right(),
+				Math.min(this.top() - amount, this.bottom()), this.bottom(),
+			);
 		}
 		else {
-			return new Rectangle(this.x, this.y, this.width, this.height + amount);
+			return Rectangle.fromBounds(
+				this.left(), this.right(),
+				this.top(), Math.max(this.bottom() + amount, this.top()),
+			);
 		}
 	}
 
