@@ -73,6 +73,12 @@ export class Table<T> {
 	map<S>(callback: (value: T, x: number, y: number) => S) {
 		return new Table(this.rows.map((row, y) => row.map((value, x) => callback(value, x, y))));
 	}
+	every(callback: (value: T, x: number, y: number) => boolean) {
+		return this.rows.every((row, y) => row.every((value, x) => callback(value, x, y)));
+	}
+	some(callback: (value: T, x: number, y: number) => boolean) {
+		return this.rows.some((row, y) => row.some((value, x) => callback(value, x, y)));
+	}
 
 	getRow(y: number) {
 		return this.rows[y];
