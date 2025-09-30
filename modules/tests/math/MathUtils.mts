@@ -85,6 +85,14 @@ describe("MathUtils.gcd", () => {
 	it("works for another test case", () => {
 		assert.equal(MathUtils.gcd(24, 14), 2);
 	});
+	it("returns the absolute value of the other input when one of the inputs is 0", () => {
+		const result1 = MathUtils.gcd(0, -5);
+		assert.equal(result1, 5);
+		const result2 = MathUtils.gcd(-5, 0);
+		assert.equal(result2, 5);
+		const result3 = MathUtils.gcd(0, 0);
+		assert.equal(result3, 0);
+	});
 });
 describe("MathUtils.factorial", () => {
 	it("correctly calculates factorials", () => {
