@@ -1,3 +1,4 @@
+import { MapUtils } from "./core-extensions/MapUtils.mjs";
 import { Rectangle } from "./geometry/Rectangle.mjs";
 import { Vector } from "./geometry/Vector.mjs";
 import { Utils } from "./Utils.mjs";
@@ -87,9 +88,9 @@ export class Grid<T> {
 		if(!equals(this.defaultValue, grid.defaultValue)) {
 			return false;
 		}
-		const thisValues = Utils.filterMap(this.valuesMap, (k, v) => !equals(v, this.defaultValue));
-		const gridValues = Utils.filterMap(grid.valuesMap, (k, v) => !equals(v, grid.defaultValue));
-		return Utils.mapEquals(thisValues, gridValues, equals);
+		const thisValues = MapUtils.filter(this.valuesMap, (k, v) => !equals(v, this.defaultValue));
+		const gridValues = MapUtils.filter(grid.valuesMap, (k, v) => !equals(v, grid.defaultValue));
+		return MapUtils.equals(thisValues, gridValues, equals);
 	}
 
 	fillRect(rect: Rectangle, value: T) {

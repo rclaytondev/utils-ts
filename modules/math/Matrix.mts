@@ -1,4 +1,4 @@
-import { Utils } from "../Utils.mjs";
+import { ArrayUtils } from "../core-extensions/ArrayUtils.mjs";
 import { Field } from "./Field.mjs";
 
 type SwapOperation<T> = { type: "swap", rowIndex1: number, rowIndex2: number, before: Matrix<T>, after: Matrix<T> };
@@ -208,7 +208,7 @@ export class Matrix<FieldElementType> {
 	rank() {
 		const rowEchelonForm = this.rowEchelonForm(false);
 		for(let row = rowEchelonForm.height - 1; row >= 0; row --) {
-			if(Utils.range(0, rowEchelonForm.width - 1).some(column => !rowEchelonForm.field.areEqual(rowEchelonForm.get(row, column), rowEchelonForm.field.zero))) {
+			if(ArrayUtils.range(0, rowEchelonForm.width - 1).some(column => !rowEchelonForm.field.areEqual(rowEchelonForm.get(row, column), rowEchelonForm.field.zero))) {
 				return row + 1;
 			}
 		}
