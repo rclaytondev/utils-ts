@@ -1,6 +1,7 @@
 import { assert } from "chai";
 import { describe, it } from "mocha";
 import { BigintMath } from "../../math/BigintMath.mjs";
+import { ArrayUtils } from "../../core-extensions/ArrayUtils.mjs";
 
 describe("BigintMath.gcd", () => {
 	it("returns the greatest common divisor of the two numbers", () => {
@@ -25,5 +26,11 @@ describe("BigintMath.floorSqrt", () => {
 		assert.equal(BigintMath.floorSqrt(num ** 2n + 1n), num);
 		assert.equal(BigintMath.floorSqrt((num + 1n) ** 2n - 1n), num);
 		assert.equal(BigintMath.floorSqrt((num + 1n) ** 2n), num + 1n);
+	});
+});
+describe("BigintMath.isPrime", () => {
+	it("correctly computes the list of prime numbers below 20", () => {
+		const primes = ArrayUtils.range(1, 20).filter(n => BigintMath.isPrime(BigInt(n)));
+		assert.sameOrderedMembers(primes, [2, 3, 5, 7, 11, 13, 17, 19]);
 	});
 });

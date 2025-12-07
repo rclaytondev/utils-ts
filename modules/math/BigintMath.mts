@@ -88,4 +88,13 @@ export class BigintMath {
 		if(num >= 0) { return num % modulo; }
 		return num + modulo * BigintMath.divideCeil(-num, modulo);
 	}
+	static isPrime(n: bigint) {
+		if(n <= 1) {
+			return false;
+		}
+		for(let k = 2n; k ** 2n <= n; k ++) {
+			if(n % k === 0n) { return false; }
+		}
+		return true;
+	}
 }
