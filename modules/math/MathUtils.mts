@@ -113,15 +113,28 @@ export class MathUtils {
 	}
 	static factorize(num: number) {
 		const result = new Map<number, number>();
-		for(let i = 2; i ** 2 <= num; i ++) {
+
+		let exponent2 = 0;
+		while(num % 2 === 0) {
+			num /= 2; exponent2 ++;
+		}
+		if(exponent2 > 0) { result.set(2, exponent2); }
+
+		let exponent3 = 0;
+		while(num % 3 === 0) {
+			num /= 3; exponent3 ++;
+		}
+		if(exponent3 > 0) { result.set(3, exponent3); }
+		
+		for(let i = 5; i ** 2 <= num; i += (i % 6 === 1) ? 4 : 2) {
+			let exponent = 0;
 			while(num % i === 0) {
-				result.set(i, (result.get(i) ?? 0) + 1);
-				num /= i;
+				num /= i; exponent ++;
 			}
+			if(exponent !== 0) { result.set(i, exponent); }
+
 		}
-		if(num !== 1) {
-			result.set(num, 1);
-		}
+		if(num !== 1) { result.set(num, 1); }
 		return result;
 	}
 	static factorsWithMultiplicity(num: number) {
