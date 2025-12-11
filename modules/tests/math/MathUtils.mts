@@ -136,6 +136,23 @@ describe("MathUtils.factorize", () => {
 			[3, 1],
 		]));
 	});
+	it("throws an error when given an input of 0", () => {
+		assert.throws(() => MathUtils.factorize(0));
+	});
+	it("throws an error when given a non-integer input", () => {
+		assert.throws(() => MathUtils.factorize(0.5));
+	});
+	it("returns the empty map when given an input of 1", () => {
+		const result = MathUtils.factorize(1);
+		assert.deepEqual(result, new Map());
+	});
+	it("works for negative numbers", () => {
+		const factorization = MathUtils.factorize(-12);
+		assert.deepEqual(factorization, new Map([
+			[2, 2],
+			[3, 1],
+		]));
+	});
 });
 describe("MathUtils.totient", () => {
 	it("computes the number of numbers k less than the given number n such that gcd(n, k) = 1", () => {

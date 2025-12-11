@@ -112,6 +112,10 @@ export class MathUtils {
 		return [...MathUtils.factorize(num).keys()];
 	}
 	static factorize(num: number) {
+		if(num === 0 || num !== Math.floor(num)) {
+			throw new Error(`Cannot compute the prime factorization of 0.`);
+		}
+		num = Math.abs(num);
 		const result = new Map<number, number>();
 
 		let exponent2 = 0;
