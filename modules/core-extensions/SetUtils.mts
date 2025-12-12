@@ -18,10 +18,10 @@ export class SetUtils {
 	}
 	static intersection<T, S>(iterable1: Iterable<T>, iterable2: Iterable<S>) {
 		const set2 = iterable2 instanceof Set ? (iterable2 as Set<S>) : new Set(iterable2);
-		const result = new Set<T | S>();
+		const result = new Set<T & S>();
 		for(const value of iterable1) {
 			if((set2 as Set<unknown>).has(value)) {
-				result.add(value);
+				result.add(value as T & S);
 			}
 		}
 		return result;

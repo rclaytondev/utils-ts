@@ -22,9 +22,9 @@ export class MapUtils {
 		return result;
 	}
 
-	static groupBy<T, S>(array: T[], callback: (value: T) => S) {
+	static groupBy<T, S>(items: Iterable<T>, callback: (value: T) => S) {
 		const groups = new Map<S, T[]>();
-		for(const value of array) {
+		for(const value of items) {
 			const output = callback(value);
 			const group = groups.get(output);
 			if(group) {
