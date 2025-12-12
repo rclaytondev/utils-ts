@@ -30,8 +30,9 @@ export class HashSet<T> {
 		yield* this.values.values();
 	}
 
-	filter(callback: (value: T) => boolean) {
-		return new HashSet([...this].filter(callback));
+
+	filter<S extends T>(callback: (value: T) => value is S) {
+		return new HashSet<S>([...this].filter(callback));
 	}
 	toString() {
 		return `{${[...this.values.values()].map(v => `${v}`).sort().join(", ")}}`;
