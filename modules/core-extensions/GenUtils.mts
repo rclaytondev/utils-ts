@@ -23,10 +23,10 @@ export class GenUtils {
 		const combinations = new Array(power).fill(null).map(_ => [...set]);
 		yield* GenUtils.cartesianProduct(...combinations) as Generator<Tuple<T, N>>;
 	}
-	static *subsets<T>(items: Set<T> | T[], size?: number): Generator<Set<T>> {
+	static *subsets<T>(items: Iterable<T>, size?: number): Generator<Set<T>> {
+		if(!Array.isArray(items)) { items = [...items]; }
 		if(typeof size !== "number") {
-			const setSize = (items instanceof Set) ? items.size : items.length;
-			for(let subsetSize = 0; subsetSize <= setSize; subsetSize ++) {
+			for(let subsetSize = 0; subsetSize <= (items as T[]).length; subsetSize ++) {
 				yield* GenUtils.subsets(items, subsetSize);
 			}
 			return;
@@ -36,9 +36,8 @@ export class GenUtils {
 			yield new Set([]);
 			return;
 		}
-		items = [...items];
-		for(const [firstIndex, firstItem] of items.slice(0, items.length - (size - 1)).entries()) {
-			const after = items.slice(firstIndex + 1);
+		for(const [firstIndex, firstItem] of (items as T[]).slice(0, (items as T[]).length - (size - 1)).entries()) {
+			const after = (items as T[]).slice(firstIndex + 1);
 			for(const subset of GenUtils.subsets(after, size - 1)) {
 				yield new Set([firstItem, ...subset]);
 			}

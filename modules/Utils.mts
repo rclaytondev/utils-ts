@@ -61,20 +61,20 @@ export class Utils {
 		}
 	}
 	static combinations<T>(
-		items: T[] | Set<T>,
+		items: Iterable<T>,
 		size: number,
 		allowRepetition: DuplicateMode,
 		orderMode: OrderMode
 	): Generator<T[]>;
 	static combinations<T>(
-		items: T[] | Set<T>,
+		items: Iterable<T>,
 		minSize: number,
 		maxSize: number,
 		allowRepetition: DuplicateMode,
 		orderMode: OrderMode
 	): Generator<T[]>;
 	static *combinations<T>(
-		arg0: T[] | Set<T>,
+		arg0: Iterable<T>,
 		arg1: number,
 		arg2: number | DuplicateMode,
 		arg3: OrderMode | DuplicateMode,
