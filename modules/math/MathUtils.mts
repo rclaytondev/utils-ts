@@ -37,23 +37,16 @@ export class MathUtils {
 		return num + modulo * Math.ceil((-num / modulo));
 	}
 	static modularExponentiate(base: number, exponent: number, modulo: number): number {
-		if(exponent === 0) { return 1; }
-		if(exponent === 1) { return base % modulo; }
-		const largestPowerOf2 = 2 ** Math.floor(Math.log2(exponent));
-		const remainder = exponent - largestPowerOf2;
-		if(remainder === 0) {
-			const numIterations = Math.log2(exponent);
-			let result = base;
-			for(let i = 0; i < numIterations; i ++) {
-				result = (result ** 2) % modulo;
+		const exponentBinary = exponent.toString(2);
+		let result = 1;
+		let power = base;
+		for(let i = 0; i < exponentBinary.length; i ++) {
+			if(exponentBinary[exponentBinary.length - 1 - i] === "1") {
+				result = (result * power) % modulo;
 			}
-			return result;
+			power = (power ** 2) % modulo;
 		}
-		else {
-			const result1 = MathUtils.modularExponentiate(base, largestPowerOf2, modulo);
-			const result2 = MathUtils.modularExponentiate(base, remainder, modulo);
-			return (result1 * result2) % modulo;
-		}
+		return result;
 	}
 	static gcd(num1: number, num2: number): number {
 		[num1, num2] = [Math.max(Math.abs(num1), Math.abs(num2)), Math.min(Math.abs(num1), Math.abs(num2))];
