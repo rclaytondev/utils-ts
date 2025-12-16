@@ -196,6 +196,10 @@ export class MathUtils {
 		}
 		return result;
 	}
+	static rangeSum(min: number, max: number) {
+		if(min > max) { return 0; }
+		return min * (max - min + 1) + (max - min) * (max - min + 1) / 2;
+	}
 
 	static totient(num: number) {
 		let result = 1;

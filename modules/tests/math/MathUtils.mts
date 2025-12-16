@@ -187,3 +187,17 @@ describe("MathUtils.unfactorize", () => {
 		assert.equal(result, 162); // 2^1 * 3^4
 	});
 });
+describe("MathUtils.rangeSum", () => {
+	it("returns the sum of the integers between min and max, inclusive", () => {
+		const result = MathUtils.rangeSum(5, 7);
+		assert.equal(result, 5 + 6 + 7);
+	});
+	it("works when min and max are equal", () => {
+		const result = MathUtils.rangeSum(7, 7);
+		assert.equal(result, 7);
+	});
+	it("returns 0 when min is greater than max", () => {
+		const result = MathUtils.rangeSum(9, 7);
+		assert.equal(result, 0);
+	});
+});

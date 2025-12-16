@@ -97,4 +97,8 @@ export class BigintMath {
 		}
 		return true;
 	}
+	static rangeSum(min: bigint, max: bigint) {
+		if(min > max) { return 0; }
+		return min * (max - min + 1n) + (max - min) * (max - min + 1n) / 2n;
+	}
 }

@@ -34,3 +34,17 @@ describe("BigintMath.isPrime", () => {
 		assert.sameOrderedMembers(primes, [2, 3, 5, 7, 11, 13, 17, 19]);
 	});
 });
+describe("BigintMath.rangeSum", () => {
+	it("returns the sum of the integers between min and max, inclusive", () => {
+		const result = BigintMath.rangeSum(5n, 7n);
+		assert.equal(result, 5n + 6n + 7n);
+	});
+	it("works when min and max are equal", () => {
+		const result = BigintMath.rangeSum(7n, 7n);
+		assert.equal(result, 7n);
+	});
+	it("returns 0 when min is greater than max", () => {
+		const result = BigintMath.rangeSum(9n, 7n);
+		assert.equal(result, 0n);
+	});
+});
