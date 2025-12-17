@@ -56,6 +56,11 @@ describe("MathUtils.modularExponentiate", () => {
 		const result = MathUtils.modularExponentiate(3, 12, 10000);
 		assert.equal(result, 1441);
 	});
+	it("works when the intermediate values are greater than Number.MAX_SAFE_INTEGER", () => {
+		const result = MathUtils.modularExponentiate(3, 100, 10 ** 10);
+		const expected = Number((3n ** 100n) % (10n ** 10n));
+		assert.equal(result, expected);
+	});
 });
 describe("MathUtils.bezoutCoefficients", () => {
 	const testCases = [
