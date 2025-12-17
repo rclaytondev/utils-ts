@@ -48,3 +48,21 @@ describe("BigintMath.rangeSum", () => {
 		assert.equal(result, 0n);
 	});
 });
+describe("BigintMath.modularExponentiate", () => {
+	it("works when the exponent is 0", () => {
+		const result = BigintMath.modularExponentiate(123n, 0n, 100n);
+		assert.equal(result, 1n);
+	});
+	it("works when the exponent is 1", () => {
+		const result = BigintMath.modularExponentiate(123n, 1n, 100n);
+		assert.equal(result, 23n);
+	});
+	it("works when the exponent is a power of 2", () => {
+		const result = BigintMath.modularExponentiate(3n, 16n, 10000n);
+		assert.equal(result, 6721n);
+	});
+	it("works when the exponent is not a power of 2", () => {
+		const result = BigintMath.modularExponentiate(3n, 12n, 10000n);
+		assert.equal(result, 1441n);
+	});
+});

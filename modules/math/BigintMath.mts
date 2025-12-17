@@ -88,6 +88,18 @@ export class BigintMath {
 		if(num >= 0) { return num % modulo; }
 		return num + modulo * BigintMath.divideCeil(-num, modulo);
 	}
+	static modularExponentiate(base: bigint, exponent: bigint, modulo: bigint) {
+		const exponentBinary = exponent.toString(2);
+		let result = 1n;
+		let power = BigInt(base);
+		for(let i = 0; i < exponentBinary.length; i ++) {
+			if(exponentBinary[exponentBinary.length - 1 - i] === "1") {
+				result = (result * power) % modulo;
+			}
+			power = (power ** 2n) % modulo;
+		}
+		return result;
+	}
 	static isPrime(n: bigint) {
 		if(n <= 1) {
 			return false;

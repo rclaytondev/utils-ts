@@ -1,3 +1,5 @@
+import { BigintMath } from "./BigintMath.mjs";
+
 export class MathUtils {
 	static sum(numbers: Iterable<number>) {
 		return [...numbers].reduce((accumulator, value) => accumulator + value, 0);
@@ -39,30 +41,19 @@ export class MathUtils {
 	static modularExponentiate(base: number, exponent: number, modulo: number): number {
 		const LARGEST_SAFE_MODULO = 94906265; // sqrt(Number.MAX_SAFE_INTEGER)
 		const needBigints = (modulo > LARGEST_SAFE_MODULO);
-		const exponentBinary = exponent.toString(2);
 		if(needBigints) {
-			const bigintModulo = BigInt(modulo);
-			let result = 1n;
-			let power = BigInt(base);
-			for(let i = 0; i < exponentBinary.length; i ++) {
-				if(exponentBinary[exponentBinary.length - 1 - i] === "1") {
-					result = (result * power) % bigintModulo;
-				}
-				power = (power ** 2n) % bigintModulo;
-			}
-			return Number(result);
+			return Number(BigintMath.modularExponentiate(BigInt(base), BigInt(exponent), BigInt(modulo)));
 		}
-		else {
-			let result = 1;
-			let power = base;
-			for(let i = 0; i < exponentBinary.length; i ++) {
-				if(exponentBinary[exponentBinary.length - 1 - i] === "1") {
-					result = (result * power) % modulo;
-				}
-				power = (power ** 2) % modulo;
+		const exponentBinary = exponent.toString(2);
+		let result = 1;
+		let power = base;
+		for(let i = 0; i < exponentBinary.length; i ++) {
+			if(exponentBinary[exponentBinary.length - 1 - i] === "1") {
+				result = (result * power) % modulo;
 			}
-			return result;
+			power = (power ** 2) % modulo;
 		}
+		return result;
 	}
 	static gcd(num1: number, num2: number): number {
 		[num1, num2] = [Math.max(Math.abs(num1), Math.abs(num2)), Math.min(Math.abs(num1), Math.abs(num2))];
