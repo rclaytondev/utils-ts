@@ -1,12 +1,12 @@
-type CartesianProductType<T extends unknown[][]> = {
-	[P in keyof T]: T[P] extends Array<infer U>? U: never
+type CartesianProductType<T extends Array<Iterable<unknown>>> = {
+	[P in keyof T]: T[P] extends Iterable<infer U>? U: never
 };
 
 type _TupleOf<T, N extends number, R extends unknown[]> = R["length"] extends N ? R : _TupleOf<T, N, [T, ...R]>;
 export type Tuple<T, N extends number> = N extends N ? number extends N ? T[] : _TupleOf<T, N, []> : never;
 
 export class GenUtils {
-	static *cartesianProduct<T extends unknown[][]>(...sets: T): Generator<CartesianProductType<T>> {
+	static *cartesianProduct<T extends Array<Iterable<unknown>>>(...sets: T): Generator<CartesianProductType<T>> {
 		if(sets.length > 0) {
 			for(const firstItem of sets[0]) {
 				const otherSets = sets.slice(1);
