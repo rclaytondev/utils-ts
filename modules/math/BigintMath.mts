@@ -88,6 +88,37 @@ export class BigintMath {
 		if(num >= 0) { return num % modulo; }
 		return num + modulo * BigintMath.divideCeil(-num, modulo);
 	}
+	static bezoutCoefficients(num1: bigint, num2: bigint): [bigint, bigint] {
+		if(num1 < 0 && num2 < 0) {
+			const [coef1, coef2] = BigintMath.bezoutCoefficients(-num1, -num2);
+			return [-coef1, -coef2];
+		}
+		else if(num1 < 0) {
+			const [coef1, coef2] = BigintMath.bezoutCoefficients(-num1, num2);
+			return [-coef1, coef2];
+		}
+		else if(num2 < 0) {
+			const [coef1, coef2] = BigintMath.bezoutCoefficients(num1, -num2);
+			return [coef1, -coef2];
+		}
+		if(num1 === 0n || num2 === 0n) {
+			throw new Error("Cannot calculate Bezout coefficients when either of the inputs are zero.");
+		}
+		if(num1 % num2 === 1n) {
+			return [1n, -(num1 / num2)];
+		}
+		else if(num2 % num1 === 1n) {
+			return [-(num2 / num1), 1n];
+		}
+		if(num1 < num2) {
+			const [coef1, coef2] = BigintMath.bezoutCoefficients(num1, num2 % num1);
+			return [coef1 - (num2 / num1) * coef2, coef2];
+		}
+		else {
+			const [coef1, coef2] = BigintMath.bezoutCoefficients(num1 % num2, num2);
+			return [coef1, coef2 - (num1 / num2) * coef1];
+		}
+	}
 	static modularExponentiate(base: bigint, exponent: bigint, modulo: bigint) {
 		const exponentBinary = exponent.toString(2);
 		let result = 1n;

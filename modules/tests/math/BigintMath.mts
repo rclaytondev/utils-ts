@@ -66,3 +66,23 @@ describe("BigintMath.modularExponentiate", () => {
 		assert.equal(result, 1441n);
 	});
 });
+
+describe("BigintMath.bezoutCoefficients", () => {
+	const testCases = [
+		[5n, 7n],
+		[2n, 3n],
+		[4n, 3n],
+		[10n, 7n],
+		[5n, 1n],
+
+		[5n, -7n],
+		[-2n, 3n],
+		[-4n, -3n],
+	];
+	for(const [num1, num2] of testCases) {
+		it(`returns the coefficients (s, t) such that ${num1}s + ${num2}t = 1, when given input (${num1}, ${num2})`, () => {
+			const [coef1, coef2] = BigintMath.bezoutCoefficients(num1, num2);
+			assert.equal(coef1 * num1 + coef2 * num2, 1n);
+		});
+	}
+});
