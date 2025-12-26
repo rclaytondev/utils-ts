@@ -83,6 +83,12 @@ describe("MathUtils.bezoutCoefficients", () => {
 		});
 	}
 });
+describe("MathUtils.modularInverse", () => {
+	it("returns the integer b such that a*b mod m = 1, given integers a and m", () => {
+		const result = MathUtils.modularInverse(5, 11);
+		assert.equal(result, 9);
+	});
+});
 describe("MathUtils.gcd", () => {
 	it("returns the greatest common divisor of the two numbers", () => {
 		assert.equal(MathUtils.gcd(36, 84), 12);

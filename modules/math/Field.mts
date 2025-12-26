@@ -66,10 +66,7 @@ export class Field<ElementType> {
 			(a, b) => (a + b) % modulo,
 			(a, b) => (a * b) % modulo,
 			num => (num === 0) ? num : modulo - num,
-			num => {
-				const [coef1] = MathUtils.bezoutCoefficients(num, modulo);
-				return MathUtils.generalizedModulo(coef1, modulo);
-			},
+			num => MathUtils.modularInverse(num, modulo),
 		);
 	}
 	static REALS = new Field<number>(
