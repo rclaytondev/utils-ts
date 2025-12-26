@@ -86,3 +86,9 @@ describe("BigintMath.bezoutCoefficients", () => {
 		});
 	}
 });
+describe("BigintMath.modularInverse", () => {
+	it("returns the integer b such that a*b mod m = 1, given integers a and m", () => {
+		const result = BigintMath.modularInverse(5n, 11n);
+		assert.equal(result, 9n);
+	});
+});

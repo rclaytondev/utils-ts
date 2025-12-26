@@ -119,6 +119,10 @@ export class BigintMath {
 			return [coef1, coef2 - (num1 / num2) * coef1];
 		}
 	}
+	static modularInverse(num: bigint, modulo: bigint) {
+		const [coef1] = BigintMath.bezoutCoefficients(num, modulo);
+		return BigintMath.generalizedModulo(coef1, modulo);
+	}
 	static modularExponentiate(base: bigint, exponent: bigint, modulo: bigint) {
 		const exponentBinary = exponent.toString(2);
 		let result = 1n;
