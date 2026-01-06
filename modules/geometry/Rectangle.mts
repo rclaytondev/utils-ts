@@ -81,6 +81,11 @@ export class Rectangle {
 		const distY = (point.y < this.y) ? this.y - point.y : (point.y > this.bottom() ? point.y - this.bottom() : 0);
 		return Math.hypot(distX, distY);
 	}
+	distanceToRect(rect: Rectangle) {
+		const distX = (rect.right() < this.x) ? this.x - rect.right() : (rect.x > this.right() ? this.right() - rect.x : 0);
+		const distY = (rect.bottom() < this.y) ? this.y - rect.bottom() : (rect.y > this.bottom() ? this.bottom() - rect.y : 0);
+		return Math.hypot(distX, distY);
+	}
 	extend(direction: Direction | "all", amount: number) {
 		if(direction === "left") {
 			return Rectangle.fromBounds(
