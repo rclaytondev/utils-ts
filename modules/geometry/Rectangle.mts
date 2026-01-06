@@ -81,7 +81,7 @@ export class Rectangle {
 		const distY = (point.y < this.y) ? this.y - point.y : (point.y > this.bottom() ? point.y - this.bottom() : 0);
 		return Math.hypot(distX, distY);
 	}
-	extend(direction: Direction, amount: number) {
+	extend(direction: Direction | "all", amount: number) {
 		if(direction === "left") {
 			return Rectangle.fromBounds(
 				Math.min(this.left() - amount, this.right()), this.right(),
@@ -100,10 +100,18 @@ export class Rectangle {
 				Math.min(this.top() - amount, this.bottom()), this.bottom(),
 			);
 		}
-		else {
+		else if(direction === "down") {
 			return Rectangle.fromBounds(
 				this.left(), this.right(),
 				this.top(), Math.max(this.bottom() + amount, this.top()),
+			);
+		}
+		else {
+			return Rectangle.fromBounds(
+				Math.min(this.right() + amount, this.left() - amount),
+				Math.max(this.right() + amount, this.left() - amount),
+				Math.min(this.bottom() + amount, this.top() - amount),
+				Math.max(this.bottom() + amount, this.top() - amount),
 			);
 		}
 	}
