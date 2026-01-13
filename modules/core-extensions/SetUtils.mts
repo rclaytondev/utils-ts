@@ -26,6 +26,16 @@ export class SetUtils {
 		}
 		return result;
 	}
+	static difference<T, S>(iterable1: Iterable<T>, iterable2: Iterable<S>) {
+		const set2 = iterable2 instanceof Set ? (iterable2 as Set<S>) : new Set(iterable2);
+		const result = new Set<T>();
+		for(const value of iterable1) {
+			if(!(set2 as Set<unknown>).has(value)) {
+				result.add(value);
+			}
+		}
+		return result;
+	}
 	static equals<T>(iterable1: Iterable<T>, iterable2: Iterable<T>) {
 		const set1 = iterable1 instanceof Set ? iterable1 : new Set(iterable1);
 		const set2 = iterable2 instanceof Set ? iterable2 : new Set(iterable2);

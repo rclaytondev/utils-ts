@@ -49,3 +49,11 @@ describe("SetUtils.intersection", () => {
 		assert.deepEqual(result, new Set([2]));
 	});
 });
+describe("SetUtils.difference", () => {
+	it("returns the set of elements that are in the first given set but not the second", () => {
+		const set1 = [1, 2, 3, 4, 5, 6, 7, 8];
+		const set2 = [3, 4, 7];
+		const difference = SetUtils.difference(set1, set2);
+		assert.deepEqual(difference, new Set([1, 2, 5, 6, 8]));
+	});
+});
