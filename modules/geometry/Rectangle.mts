@@ -58,6 +58,12 @@ export class Rectangle {
 			this.y + this.height >= rectangle.y && this.y <= rectangle.y + rectangle.height
 		);
 	}
+	interiorIntersects(rectangle: Rectangle) {
+		return (
+			this.x + this.width > rectangle.x && this.x < rectangle.x + rectangle.width &&
+			this.y + this.height > rectangle.y && this.y < rectangle.y + rectangle.height
+		);
+	}
 	contains(point: Vector) {
 		return point.x >= this.x && point.x <= this.right() && point.y >= this.y && point.y <= this.bottom();
 	}
