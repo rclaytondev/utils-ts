@@ -68,6 +68,10 @@ export class Directions {
 		"down": "down-right",
 		"down-right": "right",
 	} as const;
+	static rotate45 = {
+		"clockwise": Directions.rotateClockwise45,
+		"counterclockwise": Directions.rotateCounterclockwise45,
+	} as const;
 	static reflectX = {
 		"left": "right",
 		"right": "left",
@@ -88,4 +92,22 @@ export class Directions {
 		"down": 3 * Math.PI / 2,
 		"down-right": 7 * Math.PI / 4,
 	} as const;
+
+	static allByAngle(start: Direction | Diagonal, direction: "clockwise" | "counterclockwise") {
+		const result: (Direction | Diagonal)[] = [];
+		let current = start;
+		for(let i = 0; i < 8; i ++) {
+			result.push(current);
+			current = Directions.rotate45[direction][current];
+		}
+		return result;
+	}
+	static nextIn(directions: (Direction | Diagonal)[], start: Direction | Diagonal, angularDirection: "clockwise" | "counterclockwise") {
+		for(const direction of Directions.allByAngle(start, angularDirection)) {
+			if(directions.includes(direction)) {
+				return direction;
+			}
+		}
+		throw new Error("Cannot get the next direction in an empty list.");
+	}
 };
