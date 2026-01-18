@@ -15,7 +15,11 @@ export class ArrayUtils {
 		const index = Math.floor(Math.random() * items.length);
 		return index;
 	}
-	
+
+	static last<T>(items: T[]) {
+		return items[items.length - 1];
+	}
+
 	static range(min: number, max: number, startMode: "inclusive" | "exclusive" = "inclusive", endMode: "inclusive" | "exclusive" = "inclusive", step: number = 1) {
 		[min, max] = [Math.min(min, max), Math.max(min, max)];
 		step = Math.abs(step);
