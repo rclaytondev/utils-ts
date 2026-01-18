@@ -72,6 +72,10 @@ export class Directions {
 		"clockwise": Directions.rotateClockwise45,
 		"counterclockwise": Directions.rotateCounterclockwise45,
 	} as const;
+	static rotate = {
+		"clockwise": Directions.rotateClockwise,
+		"counterclockwise": Directions.rotateCounterclockwise,
+	} as const;
 	static reflectX = {
 		"left": "right",
 		"right": "left",
