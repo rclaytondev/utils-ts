@@ -25,11 +25,11 @@ export class Rectangle {
 	static square(x: number, y: number, size: number) {
 		return new Rectangle(x, y, size, size);
 	}
-	static boundingBox(points: Vector[]) {
-		const left = Math.min(...points.map(p => p.x));
-		const right = Math.max(...points.map(p => p.x));
-		const top = Math.min(...points.map(p => p.y));
-		const bottom = Math.max(...points.map(p => p.y));
+	static boundingBox(objects: (Vector | Rectangle)[]) {
+		const left = Math.min(...objects.map(p => p.x));
+		const right = Math.max(...objects.map(p => (p instanceof Vector ? p.x : p.right())));
+		const top = Math.min(...objects.map(p => p.y));
+		const bottom = Math.max(...objects.map(p => (p instanceof Vector ? p.y : p.bottom())));
 		return Rectangle.fromBounds(left, right, top, bottom);
 	}
 
