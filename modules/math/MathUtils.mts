@@ -155,9 +155,9 @@ export class MathUtils {
 		}
 		return result;
 	}
-	static unfactorize(factorization: Map<number, number>): number;
+	static unfactorize(factorization: ReadonlyMap<number, number>): number;
 	static unfactorize(primes: number[], exponents: number[]): number;
-	static unfactorize(factorizationOrPrimes: Map<number, number> | number[], exponents?: number[]) {
+	static unfactorize(factorizationOrPrimes: ReadonlyMap<number, number> | number[], exponents?: number[]) {
 		if(factorizationOrPrimes instanceof Map) {
 			const primes = [...factorizationOrPrimes.keys()];
 			return MathUtils.product(primes.map(p => p ** factorizationOrPrimes.get(p)!));
