@@ -162,7 +162,7 @@ export class MathUtils {
 			const primes = [...factorizationOrPrimes.keys()];
 			return MathUtils.product(primes.map(p => p ** factorizationOrPrimes.get(p)!));
 		}
-		return MathUtils.product(factorizationOrPrimes.map((p, i) => p ** (exponents!)[i]));
+		return MathUtils.product((factorizationOrPrimes as number[]).map((p, i) => p ** (exponents!)[i]));
 	}
 	static divisors(num: number) {
 		const divisorsBelowSqrt = [];
