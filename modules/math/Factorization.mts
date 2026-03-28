@@ -54,4 +54,11 @@ export class Factorization {
 			[p, (this.exponents.get(p) ?? 0) + (factorization.exponents.get(p) ?? 0)]
 		)));
 	}
+	exponentiate(power: number) {
+		const exponents = new Map<number, number>();
+		for(const [prime, exponent] of this.exponents) {
+			exponents.set(prime, exponent * power);
+		}
+		return new Factorization(exponents);
+	}
 }
