@@ -65,4 +65,7 @@ export class Factorization {
 		}
 		return new Factorization(exponents);
 	}
+	divides(factorization: Factorization) {
+		return [...this.exponents.entries()].every(([prime, exponent]) => exponent <= (factorization.exponents.get(prime) ?? 0));
+	}
 }
