@@ -197,23 +197,31 @@ describe("Utils.binarySearch", () => {
 	});
 	it("can return the first value when there are multiple values", () => {
 		const callback = ((n: number) => array[n] - 2);
-		const result = Utils.binarySearch(0, 8, callback, "first");
-		assert.equal(result, 2);
+		const result1 = Utils.binarySearch(0, 8, callback, "first", "before");
+		const result2 = Utils.binarySearch(0, 8, callback, "first", "after");
+		assert.equal(result1, 2);
+		assert.equal(result2, 2);
 	});
 	it("can return the last value when there are multiple values", () => {
 		const callback = ((n: number) => array[n] - 2);
-		const result = Utils.binarySearch(0, 8, callback, "last");
-		assert.equal(result, 4);
+		const result1 = Utils.binarySearch(0, 8, callback, "last", "before");
+		const result2 = Utils.binarySearch(0, 8, callback, "last", "after");
+		assert.equal(result1, 4);
+		assert.equal(result2, 4);
 	});
 	it("can return the value before when there are no values for which the callback returns zero", () => {
 		const callback = ((n: number) => array[n] - 6);
-		const result = Utils.binarySearch(0, 8, callback, "first");
-		assert.equal(result, 7);
+		const result1 = Utils.binarySearch(0, 8, callback, "first", "before");
+		const result2 = Utils.binarySearch(0, 8, callback, "last", "before");
+		assert.equal(result1, 7);
+		assert.equal(result2, 7);
 	});
 	it("can return the value after when there are no values for which the callback returns zero", () => {
 		const callback = ((n: number) => array[n] - 6);
-		const result = Utils.binarySearch(0, 8, callback, "last");
-		assert.equal(result, 8);
+		const result1 = Utils.binarySearch(0, 8, callback, "last", "after");
+		const result2 = Utils.binarySearch(0, 8, callback, "last", "after");
+		assert.equal(result1, 8);
+		assert.equal(result2, 8);
 	});
 	it("returns the minimum if the callback returns positive for all values in the range", () => {
 		const callback = ((n: number) => array[n]);

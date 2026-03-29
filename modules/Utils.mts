@@ -2,9 +2,9 @@ type DuplicateMode = "all-distinct" | "allow-duplicates" | "unlimited-duplicates
 type OrderMode = "tuples" | "sets";
 
 export class Utils {
-	static binarySearch(min: number, max: number, increasingFunction: (value: number) => number, mode?: "first" | "last"): number;
-	static binarySearch(min: bigint, max: bigint, increasingFunction: (value: bigint) => bigint, mode?: "first" | "last"): bigint;
-	static binarySearch<N1 extends number | bigint, N2 extends number | bigint>(min: N1, max: N1, increasingFunction: (value: N1) => N2, mode: "first" | "last" = "first"): N1 {
+	static binarySearch(min: number, max: number, increasingFunction: (value: number) => number, multiZeroMode?: "first" | "last", noZeroMode?: "before" | "after"): number;
+	static binarySearch(min: bigint, max: bigint, increasingFunction: (value: bigint) => bigint, multiZeroMode?: "first" | "last", noZeroMode?: "before" | "after"): bigint;
+	static binarySearch<N1 extends number | bigint, N2 extends number | bigint>(min: N1, max: N1, increasingFunction: (value: N1) => N2, multiZeroMode: "first" | "last" = "first", noZeroMode: "before" | "after" = (multiZeroMode === "first") ? "before" : "after"): N1 {
 		while(max - min > 1) {
 			const mid = (
 				(typeof min === "bigint" || typeof max === "bigint")
@@ -19,9 +19,8 @@ export class Utils {
 				max = mid;
 			}
 			else {
-				if(mode === "first") { max = mid; }
-				else if(mode === "last") { min = mid; }
-				else { min = max = mid; break; }
+				if(multiZeroMode === "first") { max = mid; }
+				else { min = mid; }
 			}
 		}
 		if(max === min) { return min; }
@@ -39,7 +38,10 @@ export class Utils {
 		if(minValue != 0 && maxValue == 0) {
 			return max;
 		}
-		return mode === "first" ? min : max;
+		if(minValue == 0 && maxValue == 0) {
+			return multiZeroMode === "first" ? min : max;
+		}
+		return noZeroMode === "before" ? min : max;
 	}
 
 	private static remainingValidItems<T>(items: T[], index: number, allowRepetition: DuplicateMode, orderMode: OrderMode) {
