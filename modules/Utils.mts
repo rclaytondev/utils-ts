@@ -2,9 +2,15 @@ type DuplicateMode = "all-distinct" | "allow-duplicates" | "unlimited-duplicates
 type OrderMode = "tuples" | "sets";
 
 export class Utils {
-	static binarySearch(min: number, max: number, increasingFunction: (value: number) => number, mode: "first" | "last" = "first"): number {
+	static binarySearch(min: number, max: number, increasingFunction: (value: number) => number, mode?: "first" | "last"): number;
+	static binarySearch(min: bigint, max: bigint, increasingFunction: (value: bigint) => bigint, mode?: "first" | "last"): bigint;
+	static binarySearch<N1 extends number | bigint, N2 extends number | bigint>(min: N1, max: N1, increasingFunction: (value: N1) => N2, mode: "first" | "last" = "first"): N1 {
 		while(max - min > 1) {
-			const mid = Math.floor((min + max) / 2);
+			const mid = (
+				(typeof min === "bigint" || typeof max === "bigint")
+				? (BigInt(min) + BigInt(max)) / 2n
+				: Math.floor(((min as number) + (max as number)) / 2)
+			) as N1;
 			const result = increasingFunction(mid);
 			if(result < 0) {
 				min = mid;
@@ -27,10 +33,10 @@ export class Utils {
 		if(minValue < 0 && maxValue < 0) {
 			return max;
 		}
-		if(minValue === 0 && maxValue !== 0) {
+		if(minValue == 0 && maxValue != 0) {
 			return min;
 		}
-		if(minValue !== 0 && maxValue === 0) {
+		if(minValue != 0 && maxValue == 0) {
 			return max;
 		}
 		return mode === "first" ? min : max;

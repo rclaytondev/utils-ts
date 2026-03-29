@@ -225,4 +225,10 @@ describe("Utils.binarySearch", () => {
 		const result = Utils.binarySearch(0, 8, callback, "last");
 		assert.equal(result, 8);
 	});
+	it("works when using bigints", () => {
+		const bigIntArray = array.map(n => BigInt(n));
+		const callback = ((n: bigint) => bigIntArray[Number(n)] - 3n);
+		const result = Utils.binarySearch(0n, 8n, callback);
+		assert.equal(result, 5n);
+	});
 });
