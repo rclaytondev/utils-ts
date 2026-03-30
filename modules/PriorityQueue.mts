@@ -1,5 +1,5 @@
-export class PriorityQueue<T> {
-	private heap: { value: T, priority: number }[] = [];
+export class PriorityQueue<T, N extends number | bigint = number> {
+	private heap: { value: T, priority: N }[] = [];
 
 	private static childIndices(index: number) {
 		return [2 * index + 1, 2 * index + 2];
@@ -11,7 +11,7 @@ export class PriorityQueue<T> {
 		[this.heap[index1], this.heap[index2]] = [this.heap[index2], this.heap[index1]];
 	}
 
-	insert(value: T, priority: number) {
+	insert(value: T, priority: N) {
 		this.heap.push({ value, priority });
 		this.sift(this.heap.length - 1);
 	}
@@ -27,7 +27,7 @@ export class PriorityQueue<T> {
 	pop(): T {
 		return this.popWithPriority()[0];
 	}
-	popWithPriority(): [T, number] {
+	popWithPriority(): [T, N] {
 		if(this.heap.length === 0) {
 			throw new Error("Cannot pop from empty priority queue.");
 		}
@@ -51,11 +51,11 @@ export class PriorityQueue<T> {
 	*entries() {
 		/* Can yield the first k values in O(k log k) time. */
 		if(this.heap.length === 0) { return; }
-		const queue = new PriorityQueue<number>();
+		const queue = new PriorityQueue<number, N>();
 		queue.insert(0, this.heap[0].priority);
 		while(queue.heap.length !== 0) {
 			const nextIndex = queue.heap[0].value;
-			yield [this.heap[nextIndex].value, this.heap[nextIndex].priority];
+			yield [this.heap[nextIndex].value, this.heap[nextIndex].priority] as [T, N];
 			queue.pop();
 			const [child1Index, child2Index] = PriorityQueue.childIndices(nextIndex);
 			if(child1Index < this.heap.length) {
