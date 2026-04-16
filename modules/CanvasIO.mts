@@ -315,22 +315,22 @@ export class CanvasIO {
 		return keys;
 	}
 
-	regularPolygon(center: Vector, size: number, numSides: number) {
-		this.ctx.moveTo(center.x + size, center.y);
+	regularPolygon(center: Vector, size: number, numSides: number, angle: number = 0) {
+		this.ctx.moveTo(center.x + size * Math.cos(angle), center.y + size * Math.sin(angle));
 		for(let i = 1; i < numSides; i ++) {
-			const angle = i / numSides * 2 * Math.PI;
-			this.ctx.lineTo(center.x + size * Math.cos(angle), center.y + size * Math.sin(angle));
+			const vertexAngle = angle + (i / numSides * 2 * Math.PI);
+			this.ctx.lineTo(center.x + size * Math.cos(vertexAngle), center.y + size * Math.sin(vertexAngle));
 		}
 		this.ctx.closePath();
 	}
-	fillRegularPoly(center: Vector, size: number, numSides: number) {
+	fillRegularPoly(center: Vector, size: number, numSides: number, angle: number = 0) {
 		this.ctx.beginPath();
-		this.regularPolygon(center, size, numSides);
+		this.regularPolygon(center, size, numSides, angle);
 		this.ctx.fill();
 	}
-	strokeRegularPoly(center: Vector, size: number, numSides: number) {
+	strokeRegularPoly(center: Vector, size: number, numSides: number, angle: number = 0) {
 		this.ctx.beginPath();
-		this.regularPolygon(center, size, numSides);
+		this.regularPolygon(center, size, numSides, angle);
 		this.ctx.stroke();
 	}
 }
