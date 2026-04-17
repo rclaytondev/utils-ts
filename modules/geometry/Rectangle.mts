@@ -52,6 +52,18 @@ export class Rectangle {
 	scale(amountX: number, amountY: number = amountX) {
 		return new Rectangle(this.x * amountX, this.y * amountY, this.width * amountX, this.height * amountY);
 	}
+	reflectX(axisX: number) {
+		return new Rectangle(
+			axisX - (this.x - axisX) - this.width, this.y,
+			this.width, this.height,
+		);
+	}
+	reflectY(axisY: number) {
+		return new Rectangle(
+			this.x, axisY - (this.y - axisY) - this.height,
+			this.width, this.height,
+		);
+	}
 	intersects(rectangle: Rectangle) {
 		return (
 			this.x + this.width >= rectangle.x && this.x <= rectangle.x + rectangle.width &&
