@@ -280,6 +280,13 @@ export class CanvasIO {
 		const endAngle = typeof end === "number" ? end : Directions.angle[end];
 		this.ctx.rotate(startAngle - endAngle);
 	}
+	measureText(text: string, font: string) {
+		this.ctx.save();
+		this.ctx.font = font;
+		const result = this.ctx.measureText(text);
+		this.ctx.restore();
+		return result;
+	}
 
 	static keyDirection(event: KeyboardEvent): Direction | null {
 		if(event.key === "ArrowRight") { return "right"; }
