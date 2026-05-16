@@ -1,3 +1,5 @@
+import { ArrayUtils } from "../core-extensions/ArrayUtils.mjs";
+import { GenUtils } from "../core-extensions/GenUtils.mjs";
 import { MapUtils } from "../core-extensions/MapUtils.mjs";
 import { MathUtils } from "./MathUtils.mjs";
 import { Sequence } from "./Sequence.mjs";
@@ -51,11 +53,19 @@ export class Factorization {
 	factors() {
 		return [...this.exponents.keys()];
 	}
+	divisors() {
+		const divisors = [];
+		const primes = this.factors();
+		for(const exponents of GenUtils.cartesianProduct(...primes.map((p) => ArrayUtils.range(0, this.exponents.get(p)!)))) {
+			divisors.push(new Factorization(new Map(primes.map((p, i) => [p, exponents[i]]))));
+		}
+		return divisors;
+	}
 
 	multiply(factorization: Factorization) {
 		const primes = new Set([...this.exponents.keys(), ...factorization.exponents.keys()]);
 		return new Factorization(new Map([...primes].map(p =>
-			[p, (this.exponents.get(p) ?? 0) + (factorization.exponents.get(p) ?? 0)]
+			[p, (this.exponents.get(p) ?? 0) + (factorization.exponents.get(p) ?? 0)],
 		)));
 	}
 	exponentiate(power: number) {
