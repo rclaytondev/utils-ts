@@ -98,6 +98,9 @@ export class Table<T> {
 		}
 		return columns;
 	}
+	reflectX() {
+		return new Table(this.rows.map(row => row.map((_, i) => row[row.length - i - 1])));
+	}
 
 	copy() {
 		return new Table(this.rows.map(r => [...r]));
