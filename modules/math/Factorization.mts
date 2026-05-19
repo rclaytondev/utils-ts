@@ -37,6 +37,15 @@ export class Factorization {
 		}
 		return new Factorization(exponents);
 	}
+	static lcm(...factorizations: Factorization[]) {
+		const result = new Map<number, number>();
+		for(const factorization of factorizations) {
+			for(const [prime, exponent] of factorization.exponents) {
+				result.set(prime, Math.max(exponent, result.get(prime) ?? -Infinity));
+			}
+		}
+		return new Factorization(result);
+	}
 	
 	toNumber() {
 		return MathUtils.unfactorize(this.exponents);
@@ -77,5 +86,15 @@ export class Factorization {
 	}
 	divides(factorization: Factorization) {
 		return [...this.exponents.entries()].every(([prime, exponent]) => exponent <= (factorization.exponents.get(prime) ?? 0));
+	}
+
+	isCoprimeTo(factorization: Factorization) {
+		for(const [prime, exponent] of this.exponents.entries()) {
+			const otherExponent = factorization.exponents.get(prime);
+			if(exponent > 0 && otherExponent != undefined && otherExponent > 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
