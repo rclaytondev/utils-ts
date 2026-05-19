@@ -27,6 +27,13 @@ describe("BigintMath.floorSqrt", () => {
 		assert.equal(BigintMath.floorSqrt((num + 1n) ** 2n - 1n), num);
 		assert.equal(BigintMath.floorSqrt((num + 1n) ** 2n), num + 1n);
 	});
+	it("matches the naive algorithm for inputs from 0 to 1000", () => {
+		for(let i = 0; i <= 100; i ++) {
+			const result = BigintMath.floorSqrt(BigInt(i));
+			const expected = BigInt(Math.floor(Math.sqrt(i)));
+			assert.equal(result, expected, `Expected floorSqrt(${i}) to equal ${expected}, but instead got ${result}.`);
+		}
+	});
 });
 describe("BigintMath.isPrime", () => {
 	it("correctly computes the list of prime numbers below 20", () => {
