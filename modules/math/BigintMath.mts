@@ -149,4 +149,15 @@ export class BigintMath {
 		if(min > max) { return 0n; }
 		return min * (max - min + 1n) + (max - min) * (max - min + 1n) / 2n;
 	}
+	static digits(num: bigint) {
+		const digits = [];
+		do {
+			digits.unshift(num % 10n);
+			num = num / 10n;
+		} while(num !== 0n);
+		return digits;
+	}
+	static fromDigits(digits: (number | bigint)[]) {
+		return BigInt(digits.join(""));
+	}
 }
