@@ -12,7 +12,7 @@ export class MapUtils {
 		}
 		return true;
 	}
-	static filter<K, V>(map: Map<K, V>, callback: (key: K, value: V) => boolean) {
+	static filter<K, V>(map: ReadonlyMap<K, V>, callback: (key: K, value: V) => boolean) {
 		const result = new Map<K, V>();
 		for(const [key, value] of map.entries()) {
 			if(callback(key, value)) {
