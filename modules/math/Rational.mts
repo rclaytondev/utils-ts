@@ -48,6 +48,13 @@ export class Rational {
 		return this.multiply(rational.inverse());
 	}
 
+	static sum(rationals: Iterable<Rational>) {
+		return [...rationals].reduce((sum, r) => sum.add(r), new Rational(0));
+	}
+	static product(rationals: Iterable<Rational>) {
+		return [...rationals].reduce((product, r) => product.multiply(r), new Rational(1));
+	}
+
 	isPositive() {
 		return this.numerator !== 0 && Math.sign(this.numerator) === Math.sign(this.denominator);
 	}
