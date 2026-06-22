@@ -1,4 +1,4 @@
-import { Direction } from "./Direction.mjs";
+import { Diagonal, Direction } from "./Direction.mjs";
 import { Vector } from "./Vector.mjs";
 
 export class Rectangle {
@@ -153,10 +153,12 @@ export class Rectangle {
 		}
 		return squares;
 	}
-	getCorner(corner: "top-left" | "top-right" | "bottom-left" | "bottom-right") {
+	getCorner(corner: Diagonal | "top-left" | "top-right" | "bottom-left" | "bottom-right") {
+		const left = (corner === "top-left" || corner === "bottom-left" || corner === "up-left" || corner === "down-left");
+		const top = (corner === "top-left" || corner === "top-right" || corner === "up-left" || corner === "up-right");
 		return new Vector(
-			(corner === "top-left" || corner === "bottom-left") ? this.x : this.x + this.width,
-			(corner === "top-left" || corner === "top-right") ? this.y : this.y + this.height,
+			left ? this.x : this.x + this.width,
+			top ? this.y : this.y + this.height,
 		);
 	}
 	edgeCenter(direction: Direction) {
