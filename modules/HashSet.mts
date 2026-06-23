@@ -63,4 +63,7 @@ export class HashSet<T> {
 	equals(set: HashSet<T>) {
 		return this.toString() === set.toString();
 	}
+	copy() {
+		return this.map(s => s, this.hashFunction);
+	}
 }

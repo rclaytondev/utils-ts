@@ -55,18 +55,19 @@ export class BigintMath {
 		return result;
 	}
 	static floorSqrt(num: bigint) {
-		let min = 0n;
-		let max = num;
-		while(max - min > 1) {
-			const halfway = (min + max) / 2n;
-			if(halfway ** 2n < num) {
-				min = halfway;
-			}
-			else {
-				max = halfway;
+		const length = num.toString(2).length;
+		let upperBound = 2n ** (BigInt(length) / 2n + 1n);
+		let changed = true;
+		while(changed) {
+			const valueBefore = upperBound;
+			upperBound = upperBound - (upperBound ** 2n - num) / (2n * upperBound);
+			changed = (valueBefore !== upperBound);
+		}
+		for(let x = upperBound; true; x --) {
+			if(x ** 2n <= num) {
+				return x;
 			}
 		}
-		return (min ** 2n <= num && (min + 1n) ** 2n > num) ? min : max;
 	}
 	static isSquare(num: bigint) {
 		return BigintMath.floorSqrt(num) ** 2n === num;
@@ -147,5 +148,16 @@ export class BigintMath {
 	static rangeSum(min: bigint, max: bigint) {
 		if(min > max) { return 0n; }
 		return min * (max - min + 1n) + (max - min) * (max - min + 1n) / 2n;
+	}
+	static digits(num: bigint) {
+		const digits = [];
+		do {
+			digits.unshift(num % 10n);
+			num = num / 10n;
+		} while(num !== 0n);
+		return digits;
+	}
+	static fromDigits(digits: (number | bigint)[]) {
+		return BigInt(digits.join(""));
 	}
 }

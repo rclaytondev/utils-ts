@@ -43,4 +43,15 @@ export class GenUtils {
 			}
 		}
 	}
+
+	static *slice<T>(items: Iterable<T>, start: number, end: number = Infinity) {
+		let index = 0;
+		for(const item of items) {
+			if(index >= start && index < end) {
+				yield item;
+			}
+			index ++;
+			if(index >= end) { return; }
+		}
+	}
 }
