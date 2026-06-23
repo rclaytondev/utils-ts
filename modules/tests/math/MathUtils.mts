@@ -70,16 +70,21 @@ describe("MathUtils.bezoutCoefficients", () => {
 		[10, 7],
 		[5, 1],
 
+		[1, 1],
+		[2, 4],
+		[3, 21],
+
 		[5, -7],
 		[-2, 3],
 		[-4, -3],
 	];
 	for(const [num1, num2] of testCases) {
-		it(`returns the coefficients (s, t) such that ${num1}s + ${num2}t = 1, when given input (${num1}, ${num2})`, () => {
+		it(`returns the coefficients (s, t) such that ${num1}s + ${num2}t = gcd(${num1}, ${num2}), when given input (${num1}, ${num2})`, () => {
+			const gcd = MathUtils.gcd(num1, num2);
 			const [coef1, coef2] = MathUtils.bezoutCoefficients(num1, num2);
 			assert.equal(coef1 % 1, 0);
 			assert.equal(coef2 % 1, 0);
-			assert.equal(coef1 * num1 + coef2 * num2, 1);
+			assert.equal(coef1 * num1 + coef2 * num2, gcd);
 		});
 	}
 });

@@ -83,11 +83,11 @@ export class MathUtils {
 		if(num1 !== Math.floor(num1) || num2 !== Math.floor(num2)) {
 			throw new Error("Calculating Bezout coefficients when either of the inputs are non-integers is not currently supported.");
 		}
-		if(num1 % num2 === 1) {
-			return [1, -Math.floor(num1 / num2)];
+		if(num1 % num2 === 0) {
+			return [0, 1];
 		}
-		else if(num2 % num1 === 1) {
-			return [-Math.floor(num2 / num1), 1];
+		else if(num2 % num1 === 0) {
+			return [1, 0];
 		}
 		if(num1 < num2) {
 			const [coef1, coef2] = MathUtils.bezoutCoefficients(num1, num2 % num1);
@@ -117,7 +117,7 @@ export class MathUtils {
 	}
 	static factorize(num: number) {
 		if(num === 0 || num !== Math.floor(num)) {
-			throw new Error(`Cannot compute the prime factorization of 0.`);
+			throw new Error("Cannot compute the prime factorization of 0.");
 		}
 		num = Math.abs(num);
 		const result = new Map<number, number>();
