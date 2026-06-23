@@ -96,6 +96,16 @@ export class Directions {
 		"down": 3 * Math.PI / 2,
 		"down-right": 7 * Math.PI / 4,
 	} as const;
+	static createDiagonal = {
+		"left": {
+			"up": "up-left",
+			"down": "down-left",
+		},
+		"right": {
+			"up": "up-right",
+			"down": "down-right",
+		},
+	} as const;
 
 	static allByAngle(start: Direction | Diagonal, direction: "clockwise" | "counterclockwise") {
 		const result: (Direction | Diagonal)[] = [];

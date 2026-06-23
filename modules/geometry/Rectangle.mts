@@ -1,4 +1,4 @@
-import { Direction } from "./Direction.mjs";
+import { Diagonal, Direction } from "./Direction.mjs";
 import { Vector } from "./Vector.mjs";
 
 export class Rectangle {
@@ -51,6 +51,18 @@ export class Rectangle {
 	}
 	scale(amountX: number, amountY: number = amountX) {
 		return new Rectangle(this.x * amountX, this.y * amountY, this.width * amountX, this.height * amountY);
+	}
+	reflectX(axisX: number) {
+		return new Rectangle(
+			axisX - (this.x - axisX) - this.width, this.y,
+			this.width, this.height,
+		);
+	}
+	reflectY(axisY: number) {
+		return new Rectangle(
+			this.x, axisY - (this.y - axisY) - this.height,
+			this.width, this.height,
+		);
 	}
 	intersects(rectangle: Rectangle) {
 		return (
@@ -141,10 +153,12 @@ export class Rectangle {
 		}
 		return squares;
 	}
-	getCorner(corner: "top-left" | "top-right" | "bottom-left" | "bottom-right") {
+	getCorner(corner: Diagonal | "top-left" | "top-right" | "bottom-left" | "bottom-right") {
+		const left = (corner === "top-left" || corner === "bottom-left" || corner === "up-left" || corner === "down-left");
+		const top = (corner === "top-left" || corner === "top-right" || corner === "up-left" || corner === "up-right");
 		return new Vector(
-			(corner === "top-left" || corner === "bottom-left") ? this.x : this.x + this.width,
-			(corner === "top-left" || corner === "top-right") ? this.y : this.y + this.height,
+			left ? this.x : this.x + this.width,
+			top ? this.y : this.y + this.height,
 		);
 	}
 	edgeCenter(direction: Direction) {
