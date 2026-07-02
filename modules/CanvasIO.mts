@@ -77,7 +77,7 @@ export class CanvasIO {
 		return this.canvas.getBoundingClientRect().height;
 	}
 	boundingBox() {
-		return new Rectangle(0, 0, this.width(), this.height());
+		return Rectangle.fromDimensions(0, 0, this.width(), this.height());
 	}
 
 

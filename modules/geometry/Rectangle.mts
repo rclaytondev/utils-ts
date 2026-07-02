@@ -2,64 +2,83 @@ import { Diagonal, Direction } from "./Direction.mjs";
 import { Vector } from "./Vector.mjs";
 
 export class Rectangle {
-	x: number;
-	y: number;
-	width: number;
-	height: number;
+	left: number;
+	right: number;
+	top: number;
+	bottom: number;
 
-	constructor(x: number, y: number, width: number, height: number) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	private constructor(left: number, right: number, top: number, bottom: number) {
+		this.left = left;
+		this.right = right;
+		this.top = top;
+		this.bottom = bottom;
+	}
+	static fromDimensions(x: number, y: number, width: number, height: number) {
+		return new Rectangle(x, x + width, y, y + height);
 	}
 	static fromBounds(left: number, right: number, top: number, bottom: number) {
-		return new Rectangle(Math.min(left, right), Math.min(top, bottom), Math.abs(right - left), Math.abs(bottom - top));
+		return new Rectangle(Math.min(left, right), Math.max(left, right), Math.min(top, bottom), Math.max(top, bottom));
 	}
 	static fromOppositeCorners(corner1: Vector, corner2: Vector) {
 		return Rectangle.fromBounds(corner1.x, corner2.x, corner1.y, corner2.y);
 	}
 	static fromCenter(centerX: number, centerY: number, width: number, height: number) {
-		return new Rectangle(centerX - width / 2, centerY - height / 2, width, height);
+		return Rectangle.fromDimensions(centerX - width / 2, centerY - height / 2, width, height);
 	}
 	static square(x: number, y: number, size: number) {
-		return new Rectangle(x, y, size, size);
+		return Rectangle.fromDimensions(x, y, size, size);
 	}
 	static boundingBox(objects: (Vector | Rectangle)[]) {
 		const left = Math.min(...objects.map(p => p.x));
-		const right = Math.max(...objects.map(p => (p instanceof Vector ? p.x : p.right())));
+		const right = Math.max(...objects.map(p => (p instanceof Vector ? p.x : p.right)));
 		const top = Math.min(...objects.map(p => p.y));
-		const bottom = Math.max(...objects.map(p => (p instanceof Vector ? p.y : p.bottom())));
+		const bottom = Math.max(...objects.map(p => (p instanceof Vector ? p.y : p.bottom)));
 		return Rectangle.fromBounds(left, right, top, bottom);
 	}
 
-	left() {
-		return this.x;
+	get x() {
+		return this.left;
 	}
-	right() {
-		return this.x + this.width;
+	set x(x: number) {
+		const originalX = this.left;
+		this.left = x;
+		this.right += (x - originalX);
 	}
-	top() {
-		return this.y;
+	get y() {
+		return this.top;
 	}
-	bottom() {
-		return this.y + this.height;
+	set y(y: number) {
+		const originalY = this.top;
+		this.top = y;
+		this.bottom += (y - originalY);
+	}
+	get width() {
+		return this.right - this.left;
+	}
+	set width(width: number) {
+		this.right = this.left + width;
+	}
+	get height() {
+		return this.bottom - this.top;
+	}
+	set height(height: number) {
+		this.bottom = this.top + height;
 	}
 
 	translate(offset: Vector) {
-		return new Rectangle(this.x + offset.x, this.y + offset.y, this.width, this.height);
+		return Rectangle.fromDimensions(this.x + offset.x, this.y + offset.y, this.width, this.height);
 	}
 	scale(amountX: number, amountY: number = amountX) {
-		return new Rectangle(this.x * amountX, this.y * amountY, this.width * amountX, this.height * amountY);
+		return Rectangle.fromDimensions(this.x * amountX, this.y * amountY, this.width * amountX, this.height * amountY);
 	}
 	reflectX(axisX: number) {
-		return new Rectangle(
+		return Rectangle.fromDimensions(
 			axisX - (this.x - axisX) - this.width, this.y,
 			this.width, this.height,
 		);
 	}
 	reflectY(axisY: number) {
-		return new Rectangle(
+		return Rectangle.fromDimensions(
 			this.x, axisY - (this.y - axisY) - this.height,
 			this.width, this.height,
 		);
@@ -77,7 +96,7 @@ export class Rectangle {
 		);
 	}
 	contains(point: Vector) {
-		return point.x >= this.x && point.x <= this.right() && point.y >= this.y && point.y <= this.bottom();
+		return point.x >= this.x && point.x <= this.right && point.y >= this.y && point.y <= this.bottom;
 	}
 	area() {
 		return this.width * this.height;
@@ -95,46 +114,46 @@ export class Rectangle {
 		return new Vector(this.x + (this.width / 2), this.y + (this.height / 2));
 	}
 	distanceTo(point: Vector) {
-		const distX = (point.x < this.x) ? this.x - point.x : (point.x > this.right() ? point.x - this.right() : 0);
-		const distY = (point.y < this.y) ? this.y - point.y : (point.y > this.bottom() ? point.y - this.bottom() : 0);
+		const distX = (point.x < this.x) ? this.x - point.x : (point.x > this.right ? point.x - this.right : 0);
+		const distY = (point.y < this.y) ? this.y - point.y : (point.y > this.bottom ? point.y - this.bottom : 0);
 		return Math.hypot(distX, distY);
 	}
 	distanceToRect(rect: Rectangle) {
-		const distX = (rect.right() < this.x) ? this.x - rect.right() : (rect.x > this.right() ? this.right() - rect.x : 0);
-		const distY = (rect.bottom() < this.y) ? this.y - rect.bottom() : (rect.y > this.bottom() ? this.bottom() - rect.y : 0);
+		const distX = (rect.right < this.x) ? this.x - rect.right : (rect.x > this.right ? this.right - rect.x : 0);
+		const distY = (rect.bottom < this.y) ? this.y - rect.bottom : (rect.y > this.bottom ? this.bottom - rect.y : 0);
 		return Math.hypot(distX, distY);
 	}
 	extend(direction: Direction | "all", amount: number) {
 		if(direction === "left") {
 			return Rectangle.fromBounds(
-				Math.min(this.left() - amount, this.right()), this.right(),
-				this.top(), this.bottom(),
+				Math.min(this.left - amount, this.right), this.right,
+				this.top, this.bottom,
 			);
 		}
 		else if(direction === "right") {
 			return Rectangle.fromBounds(
-				this.left(), Math.max(this.right() + amount, this.left()),
-				this.top(), this.bottom(),
+				this.left, Math.max(this.right + amount, this.left),
+				this.top, this.bottom,
 			);
 		}
 		else if(direction === "up") {
 			return Rectangle.fromBounds(
-				this.left(), this.right(),
-				Math.min(this.top() - amount, this.bottom()), this.bottom(),
+				this.left, this.right,
+				Math.min(this.top - amount, this.bottom), this.bottom,
 			);
 		}
 		else if(direction === "down") {
 			return Rectangle.fromBounds(
-				this.left(), this.right(),
-				this.top(), Math.max(this.bottom() + amount, this.top()),
+				this.left, this.right,
+				this.top, Math.max(this.bottom + amount, this.top),
 			);
 		}
 		else {
 			return Rectangle.fromBounds(
-				Math.min(this.right() + amount, this.left() - amount),
-				Math.max(this.right() + amount, this.left() - amount),
-				Math.min(this.bottom() + amount, this.top() - amount),
-				Math.max(this.bottom() + amount, this.top() - amount),
+				Math.min(this.right + amount, this.left - amount),
+				Math.max(this.right + amount, this.left - amount),
+				Math.min(this.bottom + amount, this.top - amount),
+				Math.max(this.bottom + amount, this.top - amount),
 			);
 		}
 	}
@@ -174,10 +193,10 @@ export class Rectangle {
 		return new Vector(this.x + this.width, this.y + this.height / 2);
 	}
 	collisionDirection(collidingRect: Rectangle): Direction {
-		const leftOverlap = collidingRect.right() - this.left();
-		const rightOverlap = this.right() - collidingRect.left();
-		const topOverlap = collidingRect.bottom() - this.top();
-		const bottomOverlap = this.bottom() - collidingRect.top();
+		const leftOverlap = collidingRect.right - this.left;
+		const rightOverlap = this.right - collidingRect.left;
+		const topOverlap = collidingRect.bottom - this.top;
+		const bottomOverlap = this.bottom - collidingRect.top;
 
 		const minOverlap = Math.min(leftOverlap, rightOverlap, topOverlap, bottomOverlap);
 		if(minOverlap === leftOverlap) { return "left"; }
