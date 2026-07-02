@@ -85,14 +85,14 @@ export class Rectangle {
 	}
 	intersects(rectangle: Rectangle) {
 		return (
-			this.x + this.width >= rectangle.x && this.x <= rectangle.x + rectangle.width &&
-			this.y + this.height >= rectangle.y && this.y <= rectangle.y + rectangle.height
+			this.right >= rectangle.left && this.left <= rectangle.right
+			&& this.bottom >= rectangle.top && this.top <= rectangle.bottom
 		);
 	}
 	interiorIntersects(rectangle: Rectangle) {
 		return (
-			this.x + this.width > rectangle.x && this.x < rectangle.x + rectangle.width &&
-			this.y + this.height > rectangle.y && this.y < rectangle.y + rectangle.height
+			this.right > rectangle.left && this.left < rectangle.right
+			&& this.bottom > rectangle.top && this.top < rectangle.bottom
 		);
 	}
 	contains(point: Vector) {
