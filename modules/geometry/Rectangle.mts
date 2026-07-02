@@ -204,4 +204,8 @@ export class Rectangle {
 		else if(minOverlap === topOverlap) { return "up"; }
 		else { return "down"; }
 	}
+
+	isInfinite() {
+		return this.width === Infinity || this.height === Infinity;
+	}
 }
