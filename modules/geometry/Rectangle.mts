@@ -1,4 +1,5 @@
-import { Diagonal, Direction } from "./Direction.mjs";
+import { HashSet } from "../HashSet.mjs";
+import { Diagonal, Direction, Directions } from "./Direction.mjs";
 import { Vector } from "./Vector.mjs";
 
 export class Rectangle {
@@ -179,6 +180,23 @@ export class Rectangle {
 			left ? this.x : this.x + this.width,
 			top ? this.y : this.y + this.height,
 		);
+	}
+	getCorners() {
+		return Directions.DIAGONALS.map(d => this.getCorner(d));
+	}
+	intersections(rect: Rectangle) {
+		const intersections = [
+			new Vector(this.left, rect.top),
+			new Vector(this.left, rect.bottom),
+			new Vector(this.right, rect.top),
+			new Vector(this.right, rect.bottom),
+
+			new Vector(rect.left, this.top),
+			new Vector(rect.left, this.bottom),
+			new Vector(rect.right, this.top),
+			new Vector(rect.right, this.bottom),
+		].filter(p => this.contains(p) && rect.contains(p));
+		return [...new HashSet(intersections)];
 	}
 	edgeCenter(direction: Direction) {
 		if(direction === "up") {
