@@ -163,6 +163,11 @@ export class CanvasIO {
 		this.polygon(...coordinates);
 		this.ctx.fill();
 	}
+	strokePoly(...coordinates: number[] | Vector[]) {
+		this.ctx.beginPath();
+		this.polygon(...coordinates);
+		this.ctx.stroke();
+	}
 	circle(x: number, y: number, radius: number) {
 		this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
 	}

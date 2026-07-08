@@ -174,4 +174,7 @@ export class Vector {
 	reflectY() {
 		return new Vector(this.x, -this.y);
 	}
+	dot(vector: Vector) {
+		return this.x * vector.x + this.y * vector.y;
+	}
 }
