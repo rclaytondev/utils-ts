@@ -349,12 +349,3 @@ export class CanvasIO {
 		this.ctx.stroke();
 	}
 }
-
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
-let canvasIO: CanvasIO | null = null;
-if(isBrowser()) {
-	canvasIO = new CanvasIO();
-	canvasIO.attach();
-	canvasIO.addEventListeners();
-}
-export { canvasIO as canvasIO };
