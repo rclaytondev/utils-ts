@@ -44,6 +44,13 @@ export class CanvasIO {
 			this.canvas.height = window.innerHeight;
 		});
 	}
+	setDimensions(width: number, height: number) {
+		/* Used as an alternative to CanvasIO.attach, for non-fullscreen canvases. */
+		this.canvas.style.width = `${width}px`;
+		this.canvas.style.height = `${height}px`;
+		this.canvas.width = width;
+		this.canvas.height = height;
+	}
 	addEventListeners() {
 		this.parentElement.addEventListener("keydown", (event) => {
 			this.keys[event.code] = true;
