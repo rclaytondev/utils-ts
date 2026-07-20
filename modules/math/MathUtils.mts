@@ -191,12 +191,16 @@ export class MathUtils {
 		return [...divisorsBelowSqrt, ...divisorsAboveSqrt];
 	}
 	static binomial(n: number, k: number) {
+		let result = MathUtils.permutation(n, k);
+		for(let i = 1; i <= k; i ++) {
+			result /= i;
+		}
+		return result;
+	}
+	static permutation(n: number, k: number) {
 		let result = 1;
 		for(let i = n - k + 1; i <= n; i ++) {
 			result *= i;
-		}
-		for(let i = 1; i <= k; i ++) {
-			result /= i;
 		}
 		return result;
 	}
