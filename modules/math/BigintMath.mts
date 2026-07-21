@@ -73,12 +73,16 @@ export class BigintMath {
 		return BigintMath.floorSqrt(num) ** 2n === num;
 	}
 	static binomial(n: bigint, k: bigint) {
+		let result = BigintMath.permutation(n, k);
+		for(let i = 1n; i <= k; i ++) {
+			result /= i;
+		}
+		return result;
+	}
+	static permutation(n: bigint, k: bigint) {
 		let result = 1n;
 		for(let i = n - k + 1n; i <= n; i ++) {
 			result *= i;
-		}
-		for(let i = 1n; i <= k; i ++) {
-			result /= i;
 		}
 		return result;
 	}
