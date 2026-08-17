@@ -86,6 +86,16 @@ export class Directions {
 		"down-left": "down-right",
 		"down-right": "down-left",
 	} as const;
+	static reflectY = {
+		"left": "left",
+		"right": "right",
+		"up": "down",
+		"down": "up",
+		"up-left": "down-left",
+		"up-right": "down-right",
+		"down-left": "up-left",
+		"down-right": "up-right",
+	} as const;
 	static angle = {
 		"right": 0,
 		"up-right": Math.PI / 4,
