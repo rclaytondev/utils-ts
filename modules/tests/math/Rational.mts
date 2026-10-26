@@ -13,11 +13,11 @@ describe("Rational constructor", () => {
 		assert.equal(rational.numerator, 0);
 		assert.equal(rational.denominator, 1);
 	});
-	// it("moves the sign so the denominator is always positive", () => {
-	// 	const rational = new Rational(3, -4);
-	// 	assert.equal(rational.numerator, -3);
-	// 	assert.equal(rational.denominator, 4);
-	// });
+	it("moves the sign so the denominator is always positive", () => {
+		const rational = new Rational(3, -4);
+		assert.equal(rational.numerator, -3);
+		assert.equal(rational.denominator, 4);
+	});
 });
 describe("Rational.parse", () => {
 	it("can correctly parse a rational number in the form a/b", () => {

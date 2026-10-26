@@ -17,8 +17,8 @@ export class Rational {
 		}
 		else {
 			const gcd = MathUtils.gcd(numerator, denominator);
-			this.numerator = numerator / gcd;
-			this.denominator = denominator / gcd;
+			this.numerator = Math.sign(denominator) * numerator / gcd;
+			this.denominator = Math.abs(denominator / gcd);
 		}
 	}
 
